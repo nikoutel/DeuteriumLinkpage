@@ -1,1 +1,40 @@
 @import "init.scss";
+
+$fabShadowColor: #666;
+$fabActionOffset: 2;
+$fabBoxShadow: (0, 6px, 10px, $fabShadowColor);
+$fabBoxShadowActive: set-nth($fabBoxShadow, 3, nth($fabBoxShadow, 3) - $fabActionOffset);
+
+.fab {
+  width: 70px;
+  height: 70px;
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  font-size: 40px;
+  line-height: 70px;
+  color: white;
+  background-color: $primary;
+  border-radius: 50%;
+  text-align: center;
+  @include box-shadow($fabBoxShadow...);
+  &:hover {
+    transform: scale(1.03);
+  }
+  &:active {
+    @include box-shadow($fabBoxShadowActive...);
+    transform: scale(0.97);
+    background-color: darken($primary, 5%)
+  }
+}
+
+@media (max-width: 900px) {
+  .fab {
+    width: 50px;
+    height: 50px;
+    font-size: 27px;
+    line-height: 50px;
+    right: 25px;
+    bottom: 25px;
+  }
+}

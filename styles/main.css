@@ -1,3 +1,19 @@
+@import url("https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800&display=swap&subset=latin-ext");
+html, body {
+  height: 100%;
+  padding: 50px; }
+
+#main h1, #main h2, #main h3,
+#main h4, #main h5, #main h6, #main p {
+  font-family: 'Dosis', sans-serif;
+  color: ghostwhite; }
+
+#main h3 {
+  font-size: 2rem; }
+
+#main p {
+  font-size: 1.3rem; }
+
 .fab {
   width: 70px;
   height: 70px;
@@ -10,15 +26,15 @@
   background-color: #07689F;
   border-radius: 50%;
   text-align: center;
-  -webkit-box-shadow: 0 6px 10px #666;
-  -moz-box-shadow: 0 6px 10px #666;
-  box-shadow: 0 6px 10px #666; }
+  -webkit-box-shadow: 0 6px 10px 0 #666 !important;
+  -moz-box-shadow: 0 6px 10px 0 #666 !important;
+  box-shadow: 0 6px 10px 0 #666 !important; }
   .fab:hover {
     transform: scale(1.03); }
   .fab:active {
-    -webkit-box-shadow: 0 6px 8px #666;
-    -moz-box-shadow: 0 6px 8px #666;
-    box-shadow: 0 6px 8px #666;
+    -webkit-box-shadow: 0 6px 8px 0 #666 !important;
+    -moz-box-shadow: 0 6px 8px 0 #666 !important;
+    box-shadow: 0 6px 8px 0 #666 !important;
     transform: scale(0.97);
     background-color: #065887; }
 

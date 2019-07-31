@@ -1,9 +1,34 @@
 @import "init.scss";
+@import url('https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800&display=swap&subset=latin-ext');
 
 $fabShadowColor: #666;
 $fabActionOffset: 2;
-$fabBoxShadow: (0, 6px, 10px, $fabShadowColor);
+$fabBoxShadow: (0, 6px, 10px, 0, $fabShadowColor);
 $fabBoxShadowActive: set-nth($fabBoxShadow, 3, nth($fabBoxShadow, 3) - $fabActionOffset);
+
+h1, h2, h3,
+h4, h5, h6 {
+  @extend %headings !optional;
+}
+
+html, body {
+  height: 100%;
+  padding: 50px;
+}
+
+#main %headings, #main p {
+  font-family: 'Dosis', sans-serif;
+  color: ghostwhite;
+}
+
+#main h3 {
+  font-size: 2rem;
+}
+
+#main p {
+  font-size: 1.3rem;
+}
+
 
 .fab {
   width: 70px;
@@ -18,9 +43,11 @@ $fabBoxShadowActive: set-nth($fabBoxShadow, 3, nth($fabBoxShadow, 3) - $fabActio
   border-radius: 50%;
   text-align: center;
   @include box-shadow($fabBoxShadow...);
+
   &:hover {
     transform: scale(1.03);
   }
+
   &:active {
     @include box-shadow($fabBoxShadowActive...);
     transform: scale(0.97);

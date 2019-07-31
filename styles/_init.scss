@@ -1,20 +1,22 @@
 $primary:#07689F;
-$secondary:#C9D6DF;
-$success:#11D3BC;
-$danger:#F67280;
-$info:#A2D5F2;
+$secondary: #b3bfc7;
+$success: #11d3bc;
+$danger: #f67280;
+$info: #a2d5f2;
 $warning:#ffc107;
-$light:#FAFAFA;
+$light: #fafafa;
 $dark:#4e4e4e;
 
-@mixin box-shadow($top, $left, $blur, $color, $inset: false ) {
+$borderRadius:0.1rem;
+
+@mixin box-shadow($top, $left, $blur, $spread, $color, $inset: false ) {
   @if $inset {
-    -webkit-box-shadow: inset $top $left $blur $color;
-    -moz-box-shadow: inset $top $left $blur $color;
-    box-shadow: inset $top $left $blur $color;
+    -webkit-box-shadow: inset $top $left $blur $spread $color;
+    -moz-box-shadow: inset $top $left $blur $spread $color;
+    box-shadow: inset $top $left $blur $spread $color;
   } @else {
-    -webkit-box-shadow: $top $left $blur $color;
-    -moz-box-shadow: $top $left $blur $color;
-    box-shadow: $top $left $blur $color;
+    -webkit-box-shadow: $top $left $blur $spread $color !important;
+    -moz-box-shadow: $top $left $blur $spread $color  !important;
+    box-shadow: $top $left $blur $spread $color  !important;
   }
 }

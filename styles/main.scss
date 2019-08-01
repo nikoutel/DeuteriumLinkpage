@@ -11,6 +11,13 @@ h4, h5, h6 {
   @extend %headings !optional;
 }
 
+body {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 html, body {
   height: 100%;
   padding: 50px;
@@ -28,7 +35,6 @@ html, body {
 #main p {
   font-size: 1.3rem;
 }
-
 
 .fab {
   width: 70px;
@@ -53,6 +59,13 @@ html, body {
     transform: scale(0.97);
     background-color: darken($primary, 5%)
   }
+}
+
+input#bg-upload {
+  display: none;
+  visibility: hidden;
+  width: 0;
+  height: 0;
 }
 
 @media (max-width: 900px) {

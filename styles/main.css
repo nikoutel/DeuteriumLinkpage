@@ -1,4 +1,10 @@
 @import url("https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800&display=swap&subset=latin-ext");
+body {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover; }
+
 html, body {
   height: 100%;
   padding: 50px; }
@@ -37,6 +43,12 @@ html, body {
     box-shadow: 0 6px 8px 0 #666 !important;
     transform: scale(0.97);
     background-color: #065887; }
+
+input#bg-upload {
+  display: none;
+  visibility: hidden;
+  width: 0;
+  height: 0; }
 
 @media (max-width: 900px) {
   .fab {

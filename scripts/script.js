@@ -51,7 +51,27 @@ function Configuration() {
         $('input#bg-upload').attr("accept", 'image/*').click();
     });
 
+    $('button#up').click(function () {
+        $('input#bg-upload').attr("accept", 'application/json').click();
+    });
 
+    // @todo
+    $('input#bg-upload').on('change', function () {
+        // const objectURL = window.URL.createObjectURL(this.files[0]);
+        let file = this.files[0];
+        if (file.type.startsWith('image/')) {
+            alert('Sorry, upload files not yet supported!');
+        } else if (file.type === 'application/json') {
+            loadConfigJson(file).then(function () {
+                if (!$.isEmptyObject(change)) {
+                    $('#up-txt').addClass('changed-txt').text(file.name + ' loaded.');
+                    hasChange = true;
+                }
+            });
+        } else {
+
+        }
+    });
 
     $('#bg-img-s').on('change', function () {
         $('body').css('background-image', 'url(' + imageDirectory + this.value + ')');
@@ -73,6 +93,9 @@ function Configuration() {
         }
     });
 
+    $("#down").click(function () {
+        downloadJSON(localStorage, 'deuterium-config.json', 'application/json');
+    });
 
 }
 
@@ -84,4 +107,35 @@ function saveConfig(change) {
 
 function reset() {
     $('body').css('background-image', 'url(' + getBackgroundImage() + ')');
+}
+
+function downloadJSON(content, fileName, contentType) {
+    var a = document.createElement("a");
+    content = JSON.stringify(content);
+    var file = new Blob([content], {type: contentType});
+    a.href = URL.createObjectURL(file);
+    a.download = fileName;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    //   a.dispatchEvent(new MouseEvent(`click`, {bubbles: true, cancelable: true, view: window}));
+}
+
+function loadConfigJson(file) {
+    let JSONContents = loadJSONFile(file);
+    return JSONContents.then(function (contents) {
+        let JSONObj = JSON.parse(contents);
+
+        $.each(JSONObj, function (key, value) {
+            change[key] = value;
+        });
+    });
+}
+
+async function loadJSONFile(file) {
+    return await new Promise((resolve) => {
+        let reader = new FileReader();
+        reader.onload = (e) => resolve(reader.result);
+        reader.readAsText(file);
+    });
 }

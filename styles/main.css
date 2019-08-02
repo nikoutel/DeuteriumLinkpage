@@ -32,15 +32,15 @@ html, body {
   background-color: #07689F;
   border-radius: 50%;
   text-align: center;
-  -webkit-box-shadow: 0 6px 10px 0 #666 !important;
-  -moz-box-shadow: 0 6px 10px 0 #666 !important;
-  box-shadow: 0 6px 10px 0 #666 !important; }
+  -webkit-box-shadow: 0 6px 10px 0 #333 !important;
+  -moz-box-shadow: 0 6px 10px 0 #333 !important;
+  box-shadow: 0 6px 10px 0 #333 !important; }
   .fab:hover {
     transform: scale(1.03); }
   .fab:active {
-    -webkit-box-shadow: 0 6px 8px 0 #666 !important;
-    -moz-box-shadow: 0 6px 8px 0 #666 !important;
-    box-shadow: 0 6px 8px 0 #666 !important;
+    -webkit-box-shadow: 0 6px 8px 0 #333 !important;
+    -moz-box-shadow: 0 6px 8px 0 #333 !important;
+    box-shadow: 0 6px 8px 0 #333 !important;
     transform: scale(0.97);
     background-color: #065887; }
 
@@ -49,6 +49,14 @@ input#bg-upload {
   visibility: hidden;
   width: 0;
   height: 0; }
+
+.changed {
+  background-color: #e5f3fb; }
+  .changed:focus {
+    background-color: #e5f3fb; }
+
+.changed-txt {
+  color: #5fb7e9; }
 
 @media (max-width: 900px) {
   .fab {

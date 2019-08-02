@@ -1,7 +1,7 @@
 @import "init.scss";
 @import url('https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800&display=swap&subset=latin-ext');
 
-$fabShadowColor: #666;
+$fabShadowColor: #333;
 $fabActionOffset: 2;
 $fabBoxShadow: (0, 6px, 10px, 0, $fabShadowColor);
 $fabBoxShadowActive: set-nth($fabBoxShadow, 3, nth($fabBoxShadow, 3) - $fabActionOffset);
@@ -66,6 +66,18 @@ input#bg-upload {
   visibility: hidden;
   width: 0;
   height: 0;
+}
+
+.changed {
+  background-color: lighten($info, 15%);
+  &:focus {
+    background-color: lighten($info, 15%);
+
+  }
+}
+.changed-txt {
+  color: darken($info, 15%);
+
 }
 
 @media (max-width: 900px) {

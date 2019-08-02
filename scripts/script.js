@@ -1,5 +1,6 @@
 const imageDirectory = 'img/';
 const backgroundImageDefault = imageDirectory + 'beautiful-branches.jpg';
+let change = {};
 
 $(document).ready(function () {
 
@@ -28,6 +29,59 @@ function getBackgroundImage() {
 
 function Configuration() {
 
+    let hasChange = false;
+    let backgroundImageURL = $('body').css('backgroundImage');
+    let backgroundImage = backgroundImageURL.slice(backgroundImageURL.lastIndexOf('/') + 1, backgroundImageURL.length - 2);
+
     $("#mainModal").data('bs.modal')._config.backdrop = 'static';
 
+    //@todo if directory listing, no  403; prepare for server side script
+    $.get(imageDirectory, function (data) {
+        $(data).find("td > a:contains(.jpg), td > a:contains(.jpeg), td > a:contains(.png)").each(function () {
+            $('#bg-img-s').append($('<option>', {
+                value: $(this).attr("href"),
+                text: $(this).attr("href")
+            }));
+            $("#bg-img-s").val(backgroundImage);
+        });
+
+    });
+
+    $('button#bg-img-btn').click(function () {
+        $('input#bg-upload').attr("accept", 'image/*').click();
+    });
+
+
+
+    $('#bg-img-s').on('change', function () {
+        $('body').css('background-image', 'url(' + imageDirectory + this.value + ')');
+        $('#bg-img-s').addClass('changed');
+        hasChange = true;
+        change.backgroundImage = this.value;
+    });
+
+    $('#mainModal').has('#configuration').on('hidden.bs.modal', function (e) {
+        reset();
+    });
+
+    $('#mainModal').has('#configuration').find('#save-btn').click(function () {
+        if (hasChange) {
+            saveConfig(change);
+            hasChange = false;
+            change = {};
+            $('#mainModal').modal('hide')
+        }
+    });
+
+
+}
+
+function saveConfig(change) {
+    $.each(change, function (key, value) {
+        localStorage.setItem(key, value);
+    });
+}
+
+function reset() {
+    $('body').css('background-image', 'url(' + getBackgroundImage() + ')');
 }

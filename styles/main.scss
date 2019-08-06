@@ -20,16 +20,15 @@ body {
 
 html, body {
   height: 100%;
-  padding: 50px;
+  padding-top: 50px;
 }
 
 #main %headings, #main p {
   font-family: 'Dosis', sans-serif;
-  color: ghostwhite;
 }
 
-#main h3 {
-  font-size: 2rem;
+#main > %headings {
+  color: ghostwhite;
 }
 
 #main p {

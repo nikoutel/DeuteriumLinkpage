@@ -55,3 +55,28 @@
 .close {
   font-weight: 100;
 }
+
+.btn-outline-primary {
+  color: $primary;
+  border-color: $primary;
+
+  &:hover {
+    background-color: $primary;
+    border-color: $primary;
+  }
+
+  &:active,
+  &:focus {
+    @include btnOutline($primary);
+    color:white;
+  }
+}
+
+.custom-select {
+  border-radius: $borderRadius;
+  &:active,
+  &:focus {
+    border-color: $secondary;
+    @include box-shadow(0, 0, 0, 0.1rem, lighten($secondary, 10%), false) ;
+  }
+}

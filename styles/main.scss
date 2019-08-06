@@ -1,7 +1,7 @@
 @import "init.scss";
 @import url('https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800&display=swap&subset=latin-ext');
 
-$fabShadowColor: #666;
+$fabShadowColor: #333;
 $fabActionOffset: 2;
 $fabBoxShadow: (0, 6px, 10px, 0, $fabShadowColor);
 $fabBoxShadowActive: set-nth($fabBoxShadow, 3, nth($fabBoxShadow, 3) - $fabActionOffset);
@@ -9,6 +9,13 @@ $fabBoxShadowActive: set-nth($fabBoxShadow, 3, nth($fabBoxShadow, 3) - $fabActio
 h1, h2, h3,
 h4, h5, h6 {
   @extend %headings !optional;
+}
+
+body {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 html, body {
@@ -28,7 +35,6 @@ html, body {
 #main p {
   font-size: 1.3rem;
 }
-
 
 .fab {
   width: 70px;
@@ -53,6 +59,25 @@ html, body {
     transform: scale(0.97);
     background-color: darken($primary, 5%)
   }
+}
+
+input#bg-upload {
+  display: none;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+.changed {
+  background-color: lighten($info, 15%);
+  &:focus {
+    background-color: lighten($info, 15%);
+
+  }
+}
+.changed-txt {
+  color: darken($info, 15%);
+
 }
 
 @media (max-width: 900px) {

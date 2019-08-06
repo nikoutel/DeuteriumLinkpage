@@ -9,14 +9,14 @@ $dark:#4e4e4e;
 
 $borderRadius:0.1rem;
 
-@mixin box-shadow($top, $left, $blur, $spread, $color, $inset: false ) {
+@mixin box-shadow($offset-x, $offset-y, $blur-radius, $spread-radius, $color, $inset: false ) {
   @if $inset {
-    -webkit-box-shadow: inset $top $left $blur $spread $color !important;
-    -moz-box-shadow: inset $top $left $blur $spread $color !important;
-    box-shadow: inset $top $left $blur $spread $color !important;
+    -webkit-box-shadow: inset $offset-x $offset-y $blur-radius $spread-radius $color !important;
+    -moz-box-shadow: inset $offset-x $offset-y $blur-radius $spread-radius $color !important;
+    box-shadow: inset $offset-x $offset-y $blur-radius $spread-radius $color !important;
   } @else {
-    -webkit-box-shadow: $top $left $blur $spread $color !important;
-    -moz-box-shadow: $top $left $blur $spread $color  !important;
-    box-shadow: $top $left $blur $spread $color  !important;
+    -webkit-box-shadow: $offset-x $offset-y $blur-radius $spread-radius $color !important;
+    -moz-box-shadow: $offset-x $offset-y $blur-radius $spread-radius $color  !important;
+    box-shadow: $offset-x $offset-y $blur-radius $spread-radius $color  !important;
   }
 }

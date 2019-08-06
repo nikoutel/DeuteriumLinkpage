@@ -6,6 +6,8 @@ $(document).ready(function () {
 
     $('body').css('background-image', 'url(' + getBackgroundImage() + ')');
 
+    addLinkCards();
+
     $('body').on('click', '[data-toggle="modal"]', function () {
         let title = $(this).data("title");
         $($(this).data("target") + ' .modal-title').text($(this).data("title"));
@@ -99,8 +101,8 @@ function Configuration() {
 
 }
 
-function saveConfig(change) {
-    $.each(change, function (key, value) {
+function saveConfig(configObj) {
+    $.each(configObj, function (key, value) {
         localStorage.setItem(key, value);
     });
 }
@@ -110,9 +112,9 @@ function reset() {
 }
 
 function downloadJSON(content, fileName, contentType) {
-    var a = document.createElement("a");
+    let a = document.createElement("a");
     content = JSON.stringify(content);
-    var file = new Blob([content], {type: contentType});
+    let file = new Blob([content], {type: contentType});
     a.href = URL.createObjectURL(file);
     a.download = fileName;
     document.body.appendChild(a);
@@ -139,3 +141,60 @@ async function loadJSONFile(file) {
         reader.readAsText(file);
     });
 }
+
+function getLinkCardList() {
+    return JSON.parse(localStorage.getItem('linkCards'));
+}
+
+function setLinkCardList(linkCardList) {
+    localStorage.setItem('linkCards', JSON.stringify(linkCardList));
+}
+
+function addLinkCards() {
+    let list = getLinkCardList();
+    $.each(list, function (key, value) {
+        cloneLinkCard(value.name, value.icon, value.url, value.id);
+    });
+}
+
+function cloneLinkCard(name, iconClass, url, id) {
+    let count = getCount();
+    if (id == null) {
+        id = 'card' + (name).replace(/[^A-Za-z0-9]/g, '') + count;
+    }
+    let cardClone = $('#clone-me').clone();
+    cardClone.attr('id', id);
+    cardClone.find('h6').text(name);
+    cardClone.find('.icon').removeClass().addClass("icon fa-2x " + iconClass);
+    cardClone.insertAfter($('.link-card').last()).show();
+    return id;
+}
+
+function newLinkCard(name, iconClass, url) {
+    let id = cloneLinkCard(name, iconClass, url);
+    saveLinkCard(name, iconClass, url, id);
+}
+
+function saveLinkCard(name, iconClass, url, id) {
+    let linkCardList = getLinkCardList();
+    let newCard = {};
+    newCard.id = id;
+    newCard.name = name;
+    newCard.icon = iconClass;
+    newCard.url = url;
+    linkCardList.push(newCard);
+    setLinkCardList(linkCardList);
+}
+
+function removeLinkCard(id) {
+    let linkCardList = getLinkCardList();
+    linkCardList = linkCardList.filter(elememt => elememt.id !== id);
+    setLinkCardList(linkCardList);
+}
+
+let getCount = (function () {
+    let i = 1;
+    return function () {
+        return i++;
+    }
+})();

@@ -16,6 +16,19 @@ $(document).ready(function () {
             window[action]();
         });
     });
+
+    $('#link-card-grid').sortable({
+        animation: 150,
+        filter: ".hidden, .lock",
+        draggable: '.link-card',
+        onMove:function (evt) {
+            if (evt.related)
+            {
+                if (evt.related.classList.contains('grid-lock')) return false;
+                if ($(evt.originalEvent.target).hasClass( "grid-lock" )) return false;
+            }
+        }
+    });
 });
 
 function getBackgroundImage() {

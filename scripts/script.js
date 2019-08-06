@@ -4,15 +4,16 @@ let change = {};
 
 $(document).ready(function () {
 
-    $('body').css('background-image', 'url(' + getBackgroundImage() + ')');
+    let body = $('body');
+    body.css('background-image', 'url(' + getBackgroundImage() + ')');
 
     addLinkCards();
 
-    $('body').on('click', '[data-toggle="modal"]', function () {
-        let title = $(this).data("title");
+    body.on('click', '[data-toggle="modal"]', function () {
+        let action = $(this).data("action");
         $($(this).data("target") + ' .modal-title').text($(this).data("title"));
         $($(this).data("target") + ' .modal-body').load($(this).data("remote"), function () {
-            window[title]();
+            window[action]();
         });
     });
 });
@@ -81,17 +82,21 @@ function Configuration() {
         hasChange = true;
         change.backgroundImage = this.value;
     });
-
-    $('#mainModal').has('#configuration').on('hidden.bs.modal', function (e) {
+    let mainModal = $('#mainModal');
+    mainModal.has('#configuration').on('hidden.bs.modal', function (e) {
         reset();
+        $('#save-btn').off('click');
     });
 
-    $('#mainModal').has('#configuration').find('#save-btn').click(function () {
+    mainModal.has('#configuration').find('#save-btn').click(function () {
         if (hasChange) {
             saveConfig(change);
+            if (change.linkCards !== null) {
+                addLinkCards();
+            }
             hasChange = false;
             change = {};
-            $('#mainModal').modal('hide')
+            $('#mainModal').modal('hide');
         }
     });
 
@@ -142,6 +147,23 @@ async function loadJSONFile(file) {
     });
 }
 
+function LinkCard() {
+    let mainModal = $('#mainModal');
+    mainModal.has('#newlinkcard').find('#save-btn').click(function () {
+        let tile = $('#inputTitle').val();
+        let icon = $('#inputIcon').val();
+        let url = $('#inputURL').val();
+        if (tile !== '' && icon !== '' && url !== '') {
+            newLinkCard(tile, icon, url);
+            $('#mainModal').modal('hide')
+        }
+    });
+
+    mainModal.has('#newlinkcard').on('hidden.bs.modal', function (e) {
+        $('#save-btn').off('click');
+    });
+}
+
 function getLinkCardList() {
     return JSON.parse(localStorage.getItem('linkCards'));
 }
@@ -151,6 +173,7 @@ function setLinkCardList(linkCardList) {
 }
 
 function addLinkCards() {
+    $('.link-card').not(':first').remove();
     let list = getLinkCardList();
     $.each(list, function (key, value) {
         cloneLinkCard(value.name, value.icon, value.url, value.id);

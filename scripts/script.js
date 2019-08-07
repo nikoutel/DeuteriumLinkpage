@@ -239,6 +239,7 @@ function cloneLinkCard(name, iconClass, url, id) {
     cardClone.attr('id', id);
     cardClone.attr('data-id', id);
     cardClone.find('h6').text(name);
+    cardClone.find('.card-href').attr("href", url);
     cardClone.find('.icon').removeClass().addClass("icon fa-2x " + iconClass);
     cardClone.insertAfter($('.link-card').last()).show();
     return id;

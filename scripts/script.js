@@ -22,14 +22,25 @@ $(document).ready(function () {
 
     $('#link-card-grid').sortable({
         animation: 150,
-        filter: ".hidden, .lock",
         draggable: draggable,
-        onMove:function (evt) {
-            if (evt.related)
-            {
+        delay: 200,
+        delayOnTouchOnly: true,
+        supportPointer: false,
+        onMove: function (evt) {
+            console.log(evt);
+            console.log(evt.related.classList);
+            console.log($(evt.originalEvent.target));
+            if (evt.related) {
                 if (evt.related.classList.contains('grid-lock')) return false;
-                if ($(evt.originalEvent.target).hasClass( "grid-lock" )) return false;
+                if (evt.related.classList.contains('lock')) return false;
+                if ($(evt.originalEvent.target).hasClass("grid-lock")) return false;
             }
+        },
+        onStart: function () {
+            $('.card-href').removeClass('stretched-link');
+        },
+        onUnchoose: function () {
+            $('.card-href').addClass('stretched-link');
         },
         group: ls_linkCardPositionsKey,
         store: {
@@ -41,10 +52,10 @@ $(document).ready(function () {
             set: function (sortable) {
                 sortable.options.draggable = draggableTmp;
                 let order = sortable.toArray();
-                save({[sortable.options.group.name]:JSON.stringify(order)});
+                save({[sortable.options.group.name]: JSON.stringify(order)});
             }
         }
-    }).sortable('widget').options.draggable=draggable;
+    }).sortable('widget').options.draggable = draggable;
 });
 
 function getBackgroundImage() {
@@ -145,7 +156,7 @@ function save(obj) {
 
 function load(key) {
     if (typeof localStorage !== "undefined") {
-        return  localStorage.getItem(key);
+        return localStorage.getItem(key);
     }
 }
 
@@ -205,7 +216,7 @@ function getLinkCardList() {
 }
 
 function setLinkCardList(linkCardList) {
-    save({linkCards:JSON.stringify(linkCardList)});
+    save({linkCards: JSON.stringify(linkCardList)});
 }
 
 function addLinkCards() {
@@ -239,8 +250,8 @@ function newLinkCard(name, iconClass, url) {
 function addToLinkCardPosition(id) {
     let positionsJson = load(ls_linkCardPositionsKey);
     let positions = JSON.parse(positionsJson);
-    positions.splice(positions.length - 4 , 0 ,id);
-    save({[ls_linkCardPositionsKey]:JSON.stringify(positions)});
+    positions.splice(positions.length - 4, 0, id);
+    save({[ls_linkCardPositionsKey]: JSON.stringify(positions)});
 }
 
 function saveLinkCard(name, iconClass, url, id) {

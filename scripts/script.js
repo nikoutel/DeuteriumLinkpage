@@ -1,9 +1,12 @@
 const imageDirectory = 'img/';
 const backgroundImageDefault = imageDirectory + 'beautiful-branches.jpg';
+const ls_linkCardPositionsKey = 'linkCardPositions';
 let change = {};
 
 $(document).ready(function () {
 
+    const draggable = '.link-card';
+    const draggableTmp = '.card';
     let body = $('body');
     body.css('background-image', 'url(' + getBackgroundImage() + ')');
 
@@ -20,7 +23,7 @@ $(document).ready(function () {
     $('#link-card-grid').sortable({
         animation: 150,
         filter: ".hidden, .lock",
-        draggable: '.link-card',
+        draggable: draggable,
         onMove:function (evt) {
             if (evt.related)
             {
@@ -28,27 +31,25 @@ $(document).ready(function () {
                 if ($(evt.originalEvent.target).hasClass( "grid-lock" )) return false;
             }
         },
-        group: "linkCardPositions",
+        group: ls_linkCardPositionsKey,
         store: {
             get: function (sortable) {
-                sortable.options.draggable = '.card';
-                let order = localStorage.getItem(sortable.options.group.name);
+                sortable.options.draggable = draggableTmp;
+                let order = load(sortable.options.group.name);
                 return order ? JSON.parse(order) : [];
             },
             set: function (sortable) {
-                sortable.options.draggable = '.card';
+                sortable.options.draggable = draggableTmp;
                 let order = sortable.toArray();
-                localStorage.setItem(sortable.options.group.name, JSON.stringify(order));
-                sortable.options.draggable = '.link-card';
+                save({[sortable.options.group.name]:JSON.stringify(order)});
             }
         }
-    });
-    $('#link-card-grid').sortable('widget').options.draggable='.link-card';
+    }).sortable('widget').options.draggable=draggable;
 });
 
 function getBackgroundImage() {
     let backgroundImage;
-    let backgroundImageStored = localStorage.getItem('backgroundImage');
+    let backgroundImageStored = load('backgroundImage');
 
     if (backgroundImageStored == null) {
         backgroundImage = backgroundImageDefault;
@@ -118,7 +119,7 @@ function Configuration() {
 
     mainModal.has('#configuration').find('#save-btn').click(function () {
         if (hasChange) {
-            saveConfig(change);
+            save(change);
             if (change.linkCards !== null) {
                 addLinkCards();
             }
@@ -134,10 +135,18 @@ function Configuration() {
 
 }
 
-function saveConfig(configObj) {
-    $.each(configObj, function (key, value) {
-        localStorage.setItem(key, value);
-    });
+function save(obj) {
+    if (typeof localStorage !== "undefined") {
+        $.each(obj, function (key, value) {
+            localStorage.setItem(key, value);
+        });
+    }
+}
+
+function load(key) {
+    if (typeof localStorage !== "undefined") {
+        return  localStorage.getItem(key);
+    }
 }
 
 function reset() {
@@ -153,7 +162,6 @@ function downloadJSON(content, fileName, contentType) {
     document.body.appendChild(a);
     a.click();
     a.remove();
-    //   a.dispatchEvent(new MouseEvent(`click`, {bubbles: true, cancelable: true, view: window}));
 }
 
 function loadConfigJson(file) {
@@ -193,11 +201,11 @@ function LinkCard() {
 }
 
 function getLinkCardList() {
-    return JSON.parse(localStorage.getItem('linkCards'));
+    return JSON.parse(load('linkCards'));
 }
 
 function setLinkCardList(linkCardList) {
-    localStorage.setItem('linkCards', JSON.stringify(linkCardList));
+    save({linkCards:JSON.stringify(linkCardList)});
 }
 
 function addLinkCards() {
@@ -229,11 +237,10 @@ function newLinkCard(name, iconClass, url) {
 }
 
 function addToLinkCardPosition(id) {
-    let positionsJson = localStorage.getItem('linkCardPositions');
+    let positionsJson = load(ls_linkCardPositionsKey);
     let positions = JSON.parse(positionsJson);
     positions.splice(positions.length - 4 , 0 ,id);
-    console.log(positions);
-    localStorage.setItem('linkCardPositions', JSON.stringify(positions));
+    save({[ls_linkCardPositionsKey]:JSON.stringify(positions)});
 }
 
 function saveLinkCard(name, iconClass, url, id) {

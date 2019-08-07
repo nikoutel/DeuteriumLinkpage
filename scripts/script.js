@@ -1,23 +1,66 @@
 const imageDirectory = 'img/';
 const backgroundImageDefault = imageDirectory + 'beautiful-branches.jpg';
+const ls_linkCardPositionsKey = 'linkCardPositions';
 let change = {};
+const draggable = '.link-card';
+const draggableTmp = '.card';
 
 $(document).ready(function () {
 
-    $('body').css('background-image', 'url(' + getBackgroundImage() + ')');
+    let body = $('body');
+    body.css('background-image', 'url(' + getBackgroundImage() + ')');
 
-    $('body').on('click', '[data-toggle="modal"]', function () {
-        let title = $(this).data("title");
+    addLinkCards();
+
+    body.on('click', '[data-toggle="modal"]', function () {
+        let action = $(this).data("action");
         $($(this).data("target") + ' .modal-title').text($(this).data("title"));
         $($(this).data("target") + ' .modal-body').load($(this).data("remote"), function () {
-            window[title]();
+            window[action]();
         });
     });
+
+    $('#link-card-grid').sortable({
+        animation: 150,
+        draggable: draggable,
+        delay: 200,
+        delayOnTouchOnly: true,
+        supportPointer: false,
+        onMove: function (evt) {
+            console.log(evt);
+            console.log(evt.related.classList);
+            console.log($(evt.originalEvent.target));
+            if (evt.related) {
+                if (evt.related.classList.contains('grid-lock')) return false;
+                if (evt.related.classList.contains('lock')) return false;
+                if ($(evt.originalEvent.target).hasClass("grid-lock")) return false;
+            }
+        },
+        onStart: function () {
+            $('.card-href').removeClass('stretched-link');
+        },
+        onUnchoose: function () {
+            $('.card-href').addClass('stretched-link');
+        },
+        group: ls_linkCardPositionsKey,
+        store: {
+            get: function (sortable) {
+                sortable.options.draggable = draggableTmp;
+                let order = load(sortable.options.group.name);
+                return order ? JSON.parse(order) : [];
+            },
+            set: function (sortable) {
+                sortable.options.draggable = draggableTmp;
+                let order = sortable.toArray();
+                save({[sortable.options.group.name]: JSON.stringify(order)});
+            }
+        }
+    }).sortable('widget').options.draggable = draggable;
 });
 
 function getBackgroundImage() {
     let backgroundImage;
-    let backgroundImageStored = localStorage.getItem('backgroundImage');
+    let backgroundImageStored = load('backgroundImage');
 
     if (backgroundImageStored == null) {
         backgroundImage = backgroundImageDefault;
@@ -79,17 +122,24 @@ function Configuration() {
         hasChange = true;
         change.backgroundImage = this.value;
     });
-
-    $('#mainModal').has('#configuration').on('hidden.bs.modal', function (e) {
+    let mainModal = $('#mainModal');
+    mainModal.has('#configuration').on('hidden.bs.modal', function (e) {
         reset();
+        $('#save-btn').off('click');
     });
 
-    $('#mainModal').has('#configuration').find('#save-btn').click(function () {
+    mainModal.has('#configuration').find('#save-btn').click(function () {
         if (hasChange) {
-            saveConfig(change);
+            save(change);
+            if (change.linkCards != null) {
+                addLinkCards();
+            }
+            if (change.linkCardPositions != null) {
+                reorderLinkCards(change.linkCardPositions);
+            }
             hasChange = false;
             change = {};
-            $('#mainModal').modal('hide')
+            $('#mainModal').modal('hide');
         }
     });
 
@@ -99,10 +149,18 @@ function Configuration() {
 
 }
 
-function saveConfig(change) {
-    $.each(change, function (key, value) {
-        localStorage.setItem(key, value);
-    });
+function save(obj) {
+    if (typeof localStorage !== "undefined") {
+        $.each(obj, function (key, value) {
+            localStorage.setItem(key, value);
+        });
+    }
+}
+
+function load(key) {
+    if (typeof localStorage !== "undefined") {
+        return localStorage.getItem(key);
+    }
 }
 
 function reset() {
@@ -110,15 +168,14 @@ function reset() {
 }
 
 function downloadJSON(content, fileName, contentType) {
-    var a = document.createElement("a");
+    let a = document.createElement("a");
     content = JSON.stringify(content);
-    var file = new Blob([content], {type: contentType});
+    let file = new Blob([content], {type: contentType});
     a.href = URL.createObjectURL(file);
     a.download = fileName;
     document.body.appendChild(a);
     a.click();
     a.remove();
-    //   a.dispatchEvent(new MouseEvent(`click`, {bubbles: true, cancelable: true, view: window}));
 }
 
 function loadConfigJson(file) {
@@ -139,3 +196,96 @@ async function loadJSONFile(file) {
         reader.readAsText(file);
     });
 }
+
+function LinkCard() {
+    let mainModal = $('#mainModal');
+    mainModal.has('#newlinkcard').find('#save-btn').click(function () {
+        let tile = $('#inputTitle').val();
+        let icon = $('#inputIcon').val();
+        let url = $('#inputURL').val();
+        if (tile !== '' && icon !== '' && url !== '') {
+            newLinkCard(tile, icon, url);
+            $('#mainModal').modal('hide')
+        }
+    });
+
+    mainModal.has('#newlinkcard').on('hidden.bs.modal', function (e) {
+        $('#save-btn').off('click');
+    });
+}
+
+function getLinkCardList() {
+    return JSON.parse(load('linkCards'));
+}
+
+function setLinkCardList(linkCardList) {
+    save({linkCards: JSON.stringify(linkCardList)});
+}
+
+function addLinkCards() {
+    $('.link-card').not(':first').remove();
+    let list = getLinkCardList();
+    $.each(list, function (key, value) {
+        cloneLinkCard(value.name, value.icon, value.url, value.id);
+    });
+}
+
+function cloneLinkCard(name, iconClass, url, id) {
+    let count = getCount();
+    if (id == null) {
+        id = 'card' + (name).replace(/[^A-Za-z0-9]/g, '') + count;
+    }
+    let cardClone = $('#clone-me').clone();
+    cardClone.attr('id', id);
+    cardClone.attr('data-id', id);
+    cardClone.find('h6').text(name);
+    cardClone.find('.card-href').attr("href", url);
+    cardClone.find('.icon').removeClass().addClass("icon fa-2x " + iconClass);
+    cardClone.insertAfter($('.link-card').last()).show();
+    return id;
+}
+
+function newLinkCard(name, iconClass, url) {
+    let id = cloneLinkCard(name, iconClass, url);
+    saveLinkCard(name, iconClass, url, id);
+    addToLinkCardPosition(id);
+}
+
+function addToLinkCardPosition(id) {
+    let positionsJson = load(ls_linkCardPositionsKey);
+    let positions = JSON.parse(positionsJson);
+    positions.splice(positions.length - 4, 0, id);
+    save({[ls_linkCardPositionsKey]: JSON.stringify(positions)});
+}
+
+function reorderLinkCards(linkCardPositions){
+    let position = JSON.parse(linkCardPositions);
+    let sortable = $('#link-card-grid').sortable('widget');
+    sortable.options.draggable = draggableTmp;
+    sortable.sort(position);
+    sortable.options.draggable = draggable;
+}
+
+function saveLinkCard(name, iconClass, url, id) {
+    let linkCardList = getLinkCardList();
+    let newCard = {};
+    newCard.id = id;
+    newCard.name = name;
+    newCard.icon = iconClass;
+    newCard.url = url;
+    linkCardList.push(newCard);
+    setLinkCardList(linkCardList);
+}
+
+function removeLinkCard(id) {
+    let linkCardList = getLinkCardList();
+    linkCardList = linkCardList.filter(elememt => elememt.id !== id);
+    setLinkCardList(linkCardList);
+}
+
+let getCount = (function () {
+    let i = 1;
+    return function () {
+        return i++;
+    }
+})();

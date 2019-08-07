@@ -27,8 +27,23 @@ $(document).ready(function () {
                 if (evt.related.classList.contains('grid-lock')) return false;
                 if ($(evt.originalEvent.target).hasClass( "grid-lock" )) return false;
             }
+        },
+        group: "linkCardPositions",
+        store: {
+            get: function (sortable) {
+                sortable.options.draggable = '.card';
+                let order = localStorage.getItem(sortable.options.group.name);
+                return order ? JSON.parse(order) : [];
+            },
+            set: function (sortable) {
+                sortable.options.draggable = '.card';
+                let order = sortable.toArray();
+                localStorage.setItem(sortable.options.group.name, JSON.stringify(order));
+                sortable.options.draggable = '.link-card';
+            }
         }
     });
+    $('#link-card-grid').sortable('widget').options.draggable='.link-card';
 });
 
 function getBackgroundImage() {
@@ -200,6 +215,7 @@ function cloneLinkCard(name, iconClass, url, id) {
     }
     let cardClone = $('#clone-me').clone();
     cardClone.attr('id', id);
+    cardClone.attr('data-id', id);
     cardClone.find('h6').text(name);
     cardClone.find('.icon').removeClass().addClass("icon fa-2x " + iconClass);
     cardClone.insertAfter($('.link-card').last()).show();
@@ -209,6 +225,15 @@ function cloneLinkCard(name, iconClass, url, id) {
 function newLinkCard(name, iconClass, url) {
     let id = cloneLinkCard(name, iconClass, url);
     saveLinkCard(name, iconClass, url, id);
+    addToLinkCardPosition(id);
+}
+
+function addToLinkCardPosition(id) {
+    let positionsJson = localStorage.getItem('linkCardPositions');
+    let positions = JSON.parse(positionsJson);
+    positions.splice(positions.length - 4 , 0 ,id);
+    console.log(positions);
+    localStorage.setItem('linkCardPositions', JSON.stringify(positions));
 }
 
 function saveLinkCard(name, iconClass, url, id) {

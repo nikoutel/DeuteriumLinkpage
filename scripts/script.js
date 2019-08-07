@@ -2,11 +2,11 @@ const imageDirectory = 'img/';
 const backgroundImageDefault = imageDirectory + 'beautiful-branches.jpg';
 const ls_linkCardPositionsKey = 'linkCardPositions';
 let change = {};
+const draggable = '.link-card';
+const draggableTmp = '.card';
 
 $(document).ready(function () {
 
-    const draggable = '.link-card';
-    const draggableTmp = '.card';
     let body = $('body');
     body.css('background-image', 'url(' + getBackgroundImage() + ')');
 
@@ -131,8 +131,11 @@ function Configuration() {
     mainModal.has('#configuration').find('#save-btn').click(function () {
         if (hasChange) {
             save(change);
-            if (change.linkCards !== null) {
+            if (change.linkCards != null) {
                 addLinkCards();
+            }
+            if (change.linkCardPositions != null) {
+                reorderLinkCards(change.linkCardPositions);
             }
             hasChange = false;
             change = {};
@@ -252,6 +255,14 @@ function addToLinkCardPosition(id) {
     let positions = JSON.parse(positionsJson);
     positions.splice(positions.length - 4, 0, id);
     save({[ls_linkCardPositionsKey]: JSON.stringify(positions)});
+}
+
+function reorderLinkCards(linkCardPositions){
+    let position = JSON.parse(linkCardPositions);
+    let sortable = $('#link-card-grid').sortable('widget');
+    sortable.options.draggable = draggableTmp;
+    sortable.sort(position);
+    sortable.options.draggable = draggable;
 }
 
 function saveLinkCard(name, iconClass, url, id) {

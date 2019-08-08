@@ -51,10 +51,14 @@
     box-shadow: 0 0 0 0.1rem #0988d0 !important;
     color: white; }
 
-.custom-select {
+.custom-select, .form-control {
   border-radius: 0.1rem; }
-  .custom-select:active, .custom-select:focus {
+  .custom-select:active, .custom-select:focus, .form-control:active, .form-control:focus {
     border-color: #b3bfc7;
     -webkit-box-shadow: 0 0 0 0.1rem #d0d8dd !important;
     -moz-box-shadow: 0 0 0 0.1rem #d0d8dd !important;
     box-shadow: 0 0 0 0.1rem #d0d8dd !important; }
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  border-color: #07689F;
+  background-color: #07689F; }

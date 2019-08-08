@@ -4,12 +4,14 @@ const ls_linkCardKey = 'linkCards';
 const ls_backgroundImageKey = 'backgroundImage';
 const ls_fontColorKey = 'fontColor';
 const ls_colorKey = 'color';
+const ls_enableSortingKey = 'enableSorting';
 const draggable = '.link-card';
 const draggableTmp = '.card';
 const defaults = {
     [ls_backgroundImageKey]:'beautiful-branches.jpg',
     [ls_fontColorKey]:'ghostwhite',
     [ls_colorKey]:'#07689F',
+    [ls_enableSortingKey]: true,
 };
 let init=reset;
 let change = {};
@@ -17,7 +19,6 @@ let change = {};
 
 $(document).ready(function () {
 
-    init();
     addLinkCards();
 
     $('body').on('click', '[data-toggle="modal"]', function () {
@@ -61,6 +62,7 @@ $(document).ready(function () {
             }
         }
     }).sortable('widget').options.draggable = draggable;
+    init();
 });
 
 function getConfigurableValue(key) {
@@ -218,6 +220,12 @@ function Configuration() {
         change[ls_fontColorKey] = this.value;
     });
 
+     $('#enableSortingSwitch').prop("checked", !$('#link-card-grid').sortable('disabled'))
+         .change(function(){
+        $('#link-card-grid').sortable('disabled', !$(this).prop('checked'));
+        hasChange = true;
+        change[ls_enableSortingKey] = $(this).prop('checked');
+    });
 }
 
 function save(obj) {
@@ -252,6 +260,7 @@ function reset() {
     $( ".fab-btn" ).css({'background-color': getConfigurableValue(ls_colorKey) });
     $( ".card" ).css({'border-bottom-color': getConfigurableValue(ls_colorKey) })
         .css({'color': getConfigurableValue(ls_colorKey) });
+    $('#link-card-grid').sortable('disabled', !JSON.parse(getConfigurableValue(ls_enableSortingKey)));
 }
 
 function downloadJSON(content, fileName, contentType) {

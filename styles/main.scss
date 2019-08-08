@@ -122,6 +122,59 @@ input#bg-upload {
   display: none;
 }
 
+.button-label {
+  display: inline-block;
+}
+
+#colorConfig .btn-primary {
+
+  &.active {
+
+    font-weight: bold;
+    outline: medium double lighten($primary, 15%);
+  }
+}
+
+#colorBlue {
+  background-color: $primary;
+  color: white;
+}
+
+#colorRed {
+  background-color: #92060c;
+  color: white;
+}
+
+#colorGreen {
+  background-color: #086e3f;
+  color: white;
+}
+
+#fontWhite {
+  background-color: darkgrey;
+  color: white;
+}
+
+#fontBlack {
+  background-color: #fafafa;
+  color: black;
+}
+
+#secRowConfig .form-row {
+  margin: auto 0;
+}
+
+#configuration .btn-group-sm > .btn, .btn-sm {
+  padding: .375rem .75rem;
+  min-width: 63px;
+}
+
+div[disabled] {
+  background-color: #f1f1f1;
+  background-image: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(255, 255, 255, .5) 30px, rgba(255, 255, 255, .5) 60px);
+  color: #788e9c;
+}
+
 @media (max-width: 900px) {
   .fab {
     width: 50px;

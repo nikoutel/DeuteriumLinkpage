@@ -1,20 +1,24 @@
 const imageDirectory = 'img/';
-const backgroundImageDefault = imageDirectory + 'beautiful-branches.jpg';
 const ls_linkCardPositionsKey = 'linkCardPositions';
 const ls_linkCardKey = 'linkCards';
 const ls_backgroundImageKey = 'backgroundImage';
-let change = {};
+const ls_fontColorKey = 'fontColor';
 const draggable = '.link-card';
 const draggableTmp = '.card';
+const defaults = {
+    [ls_backgroundImageKey]:imageDirectory + 'beautiful-branches.jpg',
+    [ls_fontColorKey]:'ghostwhite',
+};
+let init=reset;
+let change = {};
+
 
 $(document).ready(function () {
 
-    let body = $('body');
-    body.css('background-image', 'url(' + getBackgroundImage() + ')');
-
+    init();
     addLinkCards();
 
-    body.on('click', '[data-toggle="modal"]', function () {
+    $('body').on('click', '[data-toggle="modal"]', function () {
         let action = $(this).data("action");
         $($(this).data("target") + ' .modal-title').text($(this).data("title"));
         $($(this).data("target") + ' .modal-body').load($(this).data("remote"), function () {
@@ -29,9 +33,6 @@ $(document).ready(function () {
         delayOnTouchOnly: true,
         supportPointer: false,
         onMove: function (evt) {
-            console.log(evt);
-            console.log(evt.related.classList);
-            console.log($(evt.originalEvent.target));
             if (evt.related) {
                 if (evt.related.classList.contains('grid-lock')) return false;
                 if (evt.related.classList.contains('lock')) return false;
@@ -60,16 +61,15 @@ $(document).ready(function () {
     }).sortable('widget').options.draggable = draggable;
 });
 
-function getBackgroundImage() {
-    let backgroundImage;
-    let backgroundImageStored = load(ls_backgroundImageKey);
-
-    if (backgroundImageStored == null) {
-        backgroundImage = backgroundImageDefault;
+function getConfigurableValue(key) {
+    let value;
+    let storedValue = load(key);
+    if (storedValue == null) {
+        value = defaults[key];
     } else {
-        backgroundImage = imageDirectory + backgroundImageStored;
+        value = storedValue;
     }
-    return backgroundImage;
+    return value;
 }
 
 function Configuration() {
@@ -122,7 +122,7 @@ function Configuration() {
         $('body').css('background-image', 'url(' + imageDirectory + this.value + ')');
         $('#selectBackgroundImage').addClass('changed');
         hasChange = true;
-        change.backgroundImage = this.value;
+        change[ls_backgroundImageKey] = this.value;
     });
     let mainModal = $('#mainModal');
     mainModal.has('#configuration').on('hidden.bs.modal', function (e) {
@@ -172,6 +172,27 @@ function Configuration() {
         $(this).dropdown('dispose');
         e.preventDefault();
     });
+
+
+
+
+    const fontColorRGB = $('#main > :header').css('color');
+    if (fontColorRGB === 'rgb(255, 255, 255)') {
+        $("input[name='fontcolor'][value='white']").prop("checked",true);
+        $('#fontWhite').addClass('active');
+        $('#fontBlack').removeClass('active');
+    } else if (fontColorRGB === 'rgb(0, 0, 0)') {
+        $("input[name='fontcolor'][value='black']").prop("checked",true);
+        $('#fontWhite').removeClass('active');
+        $('#fontBlack').addClass('active');
+    }
+
+    $('input[name="fontcolor"]').change(function(){
+        $( "#main > :header" ).css({'color': this.value });
+        hasChange = true;
+        change[ls_fontColorKey] = this.value;
+    });
+
 }
 
 function save(obj) {
@@ -204,7 +225,8 @@ function del(all) {
 }
 
 function reset() {
-    $('body').css('background-image', 'url(' + getBackgroundImage() + ')');
+    $('body').css('background-image', 'url(' + imageDirectory + getConfigurableValue(ls_backgroundImageKey) + ')');
+    $( "#main > :header" ).css({'color': getConfigurableValue(ls_fontColorKey) });
 }
 
 function downloadJSON(content, fileName, contentType) {

@@ -79,8 +79,9 @@ function getConfigurableValue(key) {
 function Configuration() {
 
     let hasChange = false;
-    let backgroundImageURL = $('body').css('backgroundImage');
-    let backgroundImage = backgroundImageURL.slice(backgroundImageURL.lastIndexOf('/') + 1, backgroundImageURL.length - 2);
+
+    const backgroundImage = getConfigurableValue(ls_backgroundImageKey);
+
 
     $("#mainModal").data('bs.modal')._config.backdrop = 'static';
 
@@ -177,21 +178,18 @@ function Configuration() {
         e.preventDefault();
     });
 
-    const colorRGB = $('.card').css('color');
-    if (colorRGB === 'rgb(7, 104, 159)') {
+    const color = getConfigurableValue(ls_colorKey);
+    $('#colorBlue, #colorRed, #colorGreen').removeClass('active');
+    if (color === '#07689F') {
         $("input[name='color'][value='#07689F']").prop("checked",true);
         $('#colorBlue').addClass('active');
-        $('#colorRed').removeClass('active');
-        $('#colorGreen').removeClass('active');
-    } else if (colorRGB === 'rgb(146, 6, 12)') {
+
+    } else if (color === '#92060c') {
         $("input[name='color'][value='#92060c']").prop("checked",true);
-        $('#colorBlue').removeClass('active');
         $('#colorRed').addClass('active');
-        $('#colorGreen').removeClass('active');
-    } else if (colorRGB === 'rgb(8, 110, 63)') {
+
+    } else if (color === '#086e3f') {
         $("input[name='color'][value='#086e3f']").prop("checked",true);
-        $('#colorBlue').removeClass('active');
-        $('#colorRed').removeClass('active');
         $('#colorGreen').addClass('active');
     }
 
@@ -203,12 +201,12 @@ function Configuration() {
     });
 
 
-    const fontColorRGB = $('#main > :header').css('color');
-    if (fontColorRGB === 'rgb(255, 255, 255)') {
+    const fontColor = getConfigurableValue(ls_fontColorKey);
+    if (fontColor === 'white') {
         $("input[name='fontcolor'][value='white']").prop("checked",true);
         $('#fontWhite').addClass('active');
         $('#fontBlack').removeClass('active');
-    } else if (fontColorRGB === 'rgb(0, 0, 0)') {
+    } else if (fontColor === 'black') {
         $("input[name='fontcolor'][value='black']").prop("checked",true);
         $('#fontWhite').removeClass('active');
         $('#fontBlack').addClass('active');
@@ -220,7 +218,8 @@ function Configuration() {
         change[ls_fontColorKey] = this.value;
     });
 
-     $('#enableSortingSwitch').prop("checked", !$('#link-card-grid').sortable('disabled'))
+
+     $('#enableSortingSwitch').prop("checked", JSON.parse(getConfigurableValue(ls_enableSortingKey)))
          .change(function(){
         $('#link-card-grid').sortable('disabled', !$(this).prop('checked'));
         hasChange = true;

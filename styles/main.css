@@ -44,7 +44,7 @@ html, body {
     transform: scale(0.97);
     background-color: #065887; }
 
-input#bg-upload {
+input#inputBackgroundImage {
   display: none;
   visibility: hidden;
   width: 0;

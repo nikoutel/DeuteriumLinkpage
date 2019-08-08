@@ -81,25 +81,25 @@ function Configuration() {
     //@todo if directory listing, no  403; prepare for server side script
     $.get(imageDirectory, function (data) {
         $(data).find("td > a:contains(.jpg), td > a:contains(.jpeg), td > a:contains(.png)").each(function () {
-            $('#bg-img-s').append($('<option>', {
+            $('#selectBackgroundImage').append($('<option>', {
                 value: $(this).attr("href"),
                 text: $(this).attr("href")
             }));
-            $("#bg-img-s").val(backgroundImage);
+            $("#selectBackgroundImage").val(backgroundImage);
         });
 
     });
 
-    $('button#bg-img-btn').click(function () {
-        $('input#bg-upload').attr("accept", 'image/*').click();
+    $('button#buttonAddNewImg').click(function () {
+        $('input#inputBackgroundImage').attr("accept", 'image/*').click();
     });
 
-    $('button#up').click(function () {
-        $('input#bg-upload').attr("accept", 'application/json').click();
+    $('button#buttonConfigFileLoad').click(function () {
+        $('input#inputBackgroundImage').attr("accept", 'application/json').click();
     });
 
     // @todo
-    $('input#bg-upload').on('change', function () {
+    $('input#inputBackgroundImage').on('change', function () {
         // const objectURL = window.URL.createObjectURL(this.files[0]);
         let file = this.files[0];
         if (file.type.startsWith('image/')) {
@@ -107,7 +107,7 @@ function Configuration() {
         } else if (file.type === 'application/json') {
             loadConfigJson(file).then(function () {
                 if (!$.isEmptyObject(change)) {
-                    $('#up-txt').addClass('changed-txt').text(file.name + ' loaded.');
+                    $('#labelConfigFileLoad').addClass('changed-txt').text(file.name + ' loaded.');
                     hasChange = true;
                 }
             });
@@ -116,9 +116,9 @@ function Configuration() {
         }
     });
 
-    $('#bg-img-s').on('change', function () {
+    $('#selectBackgroundImage').on('change', function () {
         $('body').css('background-image', 'url(' + imageDirectory + this.value + ')');
-        $('#bg-img-s').addClass('changed');
+        $('#selectBackgroundImage').addClass('changed');
         hasChange = true;
         change.backgroundImage = this.value;
     });

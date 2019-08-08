@@ -255,12 +255,14 @@ function newLinkCard(name, iconClass, url) {
 
 function addToLinkCardPosition(id) {
     let positionsJson = load(ls_linkCardPositionsKey);
-    let positions = JSON.parse(positionsJson);
-    positions.splice(positions.length - 4, 0, id);
-    save({[ls_linkCardPositionsKey]: JSON.stringify(positions)});
+    if (positionsJson != null) {
+        let positions = JSON.parse(positionsJson);
+        positions.splice(positions.length - 4, 0, id);
+        save({[ls_linkCardPositionsKey]: JSON.stringify(positions)});
+    }
 }
 
-function reorderLinkCards(linkCardPositions){
+function reorderLinkCards(linkCardPositions) {
     let position = JSON.parse(linkCardPositions);
     let sortable = $('#link-card-grid').sortable('widget');
     sortable.options.draggable = draggableTmp;

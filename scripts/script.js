@@ -214,12 +214,9 @@ function del(all) {
         if (all) {
             localStorage.clear();
         } else {
-            for (let i = 0; i <= localStorage.length - 1; i++) {
-                let key = localStorage.key(i);
-                if (key !== ls_linkCardKey && key !== ls_linkCardPositionsKey) {
-                    localStorage.removeItem(key);
-                }
-            }
+            $.each(defaults, function (key, value) {
+                localStorage.removeItem(key);
+            });
         }
     }
 }

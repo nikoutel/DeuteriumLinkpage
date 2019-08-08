@@ -61,7 +61,8 @@
                 <div class="form-row pt-1">
                     <div class="col-sm-12 mt-1">
                         <small id="labelConfigFileLoad" class="button-label mt-2">Load configuration from file:</small>
-                        <button id="buttonConfigFileLoad" type="button" class="btn btn-sm btn-block btn-outline-primary float-right">
+                        <button id="buttonConfigFileLoad" type="button"
+                                class="btn btn-sm btn-block btn-outline-primary float-right">
                             Load
                         </button>
 
@@ -86,6 +87,13 @@
                 </div>
             </div>
         </div>
-
     </div>
+    <div class="form-group float-right mb-0 .text-danger text-danger dropdown">
+        <a href="#"class="dropdown-toggle pr-3 text-danger" data-toggle="dropdown">Reset</a>
+        <div class="dropdown-menu">
+            <a  id="resetConfig" class="dropdown-item" tabindex="-1" href="#">Reset configuration only</a>
+            <a  id="resetAll" class="dropdown-item" tabindex="-1" href="#">Reset configuration and link cards</a>
+        </div>
+    </div>
+
 </div>

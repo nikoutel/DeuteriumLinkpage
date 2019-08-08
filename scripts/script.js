@@ -149,6 +149,29 @@ function Configuration() {
         downloadJSON(localStorage, 'deuterium-config.json', 'application/json');
     });
 
+    $('#resetConfig').click(function (e) {
+        let msg = "This will reset all configurations!\n\nAre you sure?";
+        if (confirm(msg)) {
+            del(false);
+            reset();
+            $('#mainModal').modal('hide');
+        }
+        $(this).dropdown('dispose');
+        e.preventDefault();
+    });
+
+    $('#resetAll').click(function (e) {
+        let msg = "This will reset all configurations\n" +
+            "and the link cards!\n\nAre you sure?";
+        if (confirm(msg)) {
+            del(true);
+            reset();
+            addLinkCards();
+            $('#mainModal').modal('hide');
+        }
+        $(this).dropdown('dispose');
+        e.preventDefault();
+    });
 }
 
 function save(obj) {
@@ -162,6 +185,21 @@ function save(obj) {
 function load(key) {
     if (typeof localStorage !== "undefined") {
         return localStorage.getItem(key);
+    }
+}
+
+function del(all) {
+    if (typeof localStorage !== "undefined") {
+        if (all) {
+            localStorage.clear();
+        } else {
+            for (let i = 0; i <= localStorage.length - 1; i++) {
+                let key = localStorage.key(i);
+                if (key !== ls_linkCardKey && key !== ls_linkCardPositionsKey) {
+                    localStorage.removeItem(key);
+                }
+            }
+        }
     }
 }
 

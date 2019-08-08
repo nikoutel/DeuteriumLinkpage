@@ -25,7 +25,6 @@ html, body {
   font-size: 40px;
   line-height: 70px;
   color: white;
-  background-color: #07689F;
   border-radius: 50%;
   text-align: center;
   -webkit-box-shadow: 0 6px 10px 0 #333 !important;
@@ -60,12 +59,10 @@ input#inputBackgroundImage {
   border-radius: 0.1rem;
   opacity: 0.9;
   border-bottom-width: 0.3rem;
-  border-bottom-color: #07689F;
   font-size: 1rem;
   -webkit-box-shadow: 4px 2px 7px 0 #333 !important;
   -moz-box-shadow: 4px 2px 7px 0 #333 !important;
-  box-shadow: 4px 2px 7px 0 #333 !important;
-  color: #07689F; }
+  box-shadow: 4px 2px 7px 0 #333 !important; }
 
 .hidden {
   visibility: hidden; }

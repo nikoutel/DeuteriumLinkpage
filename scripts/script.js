@@ -3,11 +3,13 @@ const ls_linkCardPositionsKey = 'linkCardPositions';
 const ls_linkCardKey = 'linkCards';
 const ls_backgroundImageKey = 'backgroundImage';
 const ls_fontColorKey = 'fontColor';
+const ls_colorKey = 'color';
 const draggable = '.link-card';
 const draggableTmp = '.card';
 const defaults = {
-    [ls_backgroundImageKey]:imageDirectory + 'beautiful-branches.jpg',
+    [ls_backgroundImageKey]:'beautiful-branches.jpg',
     [ls_fontColorKey]:'ghostwhite',
+    [ls_colorKey]:'#07689F',
 };
 let init=reset;
 let change = {};
@@ -173,7 +175,30 @@ function Configuration() {
         e.preventDefault();
     });
 
+    const colorRGB = $('.card').css('color');
+    if (colorRGB === 'rgb(7, 104, 159)') {
+        $("input[name='color'][value='#07689F']").prop("checked",true);
+        $('#colorBlue').addClass('active');
+        $('#colorRed').removeClass('active');
+        $('#colorGreen').removeClass('active');
+    } else if (colorRGB === 'rgb(146, 6, 12)') {
+        $("input[name='color'][value='#92060c']").prop("checked",true);
+        $('#colorBlue').removeClass('active');
+        $('#colorRed').addClass('active');
+        $('#colorGreen').removeClass('active');
+    } else if (colorRGB === 'rgb(8, 110, 63)') {
+        $("input[name='color'][value='#086e3f']").prop("checked",true);
+        $('#colorBlue').removeClass('active');
+        $('#colorRed').removeClass('active');
+        $('#colorGreen').addClass('active');
+    }
 
+    $('input[name="color"]').change(function(){
+        $( ".fab-btn" ).css({'background-color': this.value });
+        $( ".card" ).css({'border-bottom-color': this.value }).css({'color': this.value });
+        hasChange = true;
+        change[ls_colorKey] = this.value;
+    });
 
 
     const fontColorRGB = $('#main > :header').css('color');
@@ -224,6 +249,9 @@ function del(all) {
 function reset() {
     $('body').css('background-image', 'url(' + imageDirectory + getConfigurableValue(ls_backgroundImageKey) + ')');
     $( "#main > :header" ).css({'color': getConfigurableValue(ls_fontColorKey) });
+    $( ".fab-btn" ).css({'background-color': getConfigurableValue(ls_colorKey) });
+    $( ".card" ).css({'border-bottom-color': getConfigurableValue(ls_colorKey) })
+        .css({'color': getConfigurableValue(ls_colorKey) });
 }
 
 function downloadJSON(content, fileName, contentType) {

@@ -40,7 +40,6 @@ html, body {
   font-size: 40px;
   line-height: 70px;
   color: white;
-  background-color: $primary;
   border-radius: 50%;
   text-align: center;
   @include box-shadow($fabBoxShadow...);
@@ -81,10 +80,8 @@ input#inputBackgroundImage {
   border-radius: $borderRadius;
   opacity: 0.9;
   border-bottom-width: 0.3rem;
-  border-bottom-color: $primary;
   font-size: 1rem;
   @include box-shadow(4px, 2px, 7px, 0, $fabShadowColor);
-  color: $primary;
 }
 
 .hidden {

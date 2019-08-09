@@ -90,6 +90,11 @@ $(document).ready(function () {
             }
         }
     }).sortable('widget').options.draggable = draggable;
+    $('html').on('click', function(e) {
+        if (typeof $(e.target).data('original-title') == 'undefined') {
+            $('[data-original-title]').popover('hide');
+        }
+    });
     init();
 });
 
@@ -185,10 +190,16 @@ function Configuration() {
             hasChange = false;
             change = {};
             $('#mainModal').modal('hide');
+            $(this).popover('dispose')
+        } else {
+            $(this).popover({
+                placement:'right',
+                content: 'Nothing to save',
+            }).popover('show')
         }
     });
 
-    $("#down").click(function () {
+    $("#buttonConfigFileSave").click(function () {
         downloadJSON(localStorage, 'deuterium-config.json', 'application/json');
     });
 
@@ -364,7 +375,13 @@ function LinkCard(id) {
             } else {
                 updateLinkCard(id, {id: id, name: title, icon: icon, url: url})
             }
-            $('#mainModal').modal('hide')
+            $('#mainModal').modal('hide');
+            $(this).popover('dispose')
+        } else {
+            $(this).popover({
+                placement:'right',
+                content: 'There are empty inputs',
+            }).popover('show')
         }
     });
 

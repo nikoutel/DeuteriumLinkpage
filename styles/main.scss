@@ -63,15 +63,23 @@ input#inputBackgroundImage {
 }
 
 .changed {
-  background-color: lighten($info, 15%);
+  background-color: $changed-light;
 
   &:focus {
-    background-color: lighten($info, 15%);
+    background-color: $changed-light;
   }
 }
 
 .changed-txt {
-  color: darken($info, 15%);
+  color: $changed-dark !important;
+ // font-size: 85%;
+}
+
+.changed-outline label{
+  &.active {
+
+    outline: medium double $changed-dark !important;
+  }
 }
 
 .card {

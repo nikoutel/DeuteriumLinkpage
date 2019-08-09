@@ -1,11 +1,13 @@
 $primary:#07689F;
 $secondary: #b3bfc7;
-$success: #11d3bc;
+$success: #bdfebe;
 $danger: #f67280;
 $info: #a2d5f2;
 $warning:#ffc107;
 $light: #fafafa;
 $dark:#4e4e4e;
+$changed-light: lighten($success, 10%);
+$changed-dark: darken($success, 55%);
 
 $borderRadius:0.1rem;
 

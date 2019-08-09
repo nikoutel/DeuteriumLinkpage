@@ -159,6 +159,7 @@ function Configuration() {
     $('#selectBackgroundImage').on('change', function () {
         $('body').css('background-image', 'url(' + imageDirectory + this.value + ')');
         $('#selectBackgroundImage').addClass('changed');
+        $('#labelBackgroundImage').addClass('changed-txt').text('Background image changed');
         hasChange = true;
         change[ls_backgroundImageKey] = this.value;
     });
@@ -233,6 +234,7 @@ function Configuration() {
     $('input[name="color"]').change(function () {
         $(".fab-btn").css({'background-color': this.value});
         $(".card").css({'border-bottom-color': this.value}).css({'color': this.value});
+        $('#labelColor').addClass('changed-txt').text('Color changed');
         hasChange = true;
         change[ls_colorKey] = this.value;
     });
@@ -251,6 +253,7 @@ function Configuration() {
 
     $('input[name="fontcolor"]').change(function () {
         $("#main > :header").css({'color': this.value});
+        $('#labelFontColor').addClass('changed-txt').text('Font color changed');
         hasChange = true;
         change[ls_fontColorKey] = this.value;
     });
@@ -259,6 +262,7 @@ function Configuration() {
     $('#enableSortingSwitch').prop("checked", JSON.parse(getConfigurableValue(ls_enableSortingKey)))
         .change(function () {
             $('#link-card-grid').sortable('disabled', !$(this).prop('checked'));
+            $('#changedTxtSorting').addClass('changed-txt').text('changed');
             hasChange = true;
             change[ls_enableSortingKey] = $(this).prop('checked');
         });
@@ -266,6 +270,7 @@ function Configuration() {
     $('#enableEditSwitch').prop("checked", JSON.parse(getConfigurableValue(ls_editMode)))
         .change(function () {
             editMode($(this).prop('checked'));
+            $('#changedTxtEdit').addClass('changed-txt').text('changed');
             hasChange = true;
             change[ls_editMode] = $(this).prop('checked');
         });

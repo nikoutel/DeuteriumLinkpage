@@ -46,12 +46,15 @@ input#inputBackgroundImage {
   height: 0; }
 
 .changed {
-  background-color: #e5f3fb; }
+  background-color: #efffef; }
   .changed:focus {
-    background-color: #e5f3fb; }
+    background-color: #efffef; }
 
 .changed-txt {
-  color: #5fb7e9; }
+  color: #02a005 !important; }
+
+.changed-outline label.active {
+  outline: medium double #02a005 !important; }
 
 .card {
   width: 220px;

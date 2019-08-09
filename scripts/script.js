@@ -139,6 +139,8 @@ function Configuration() {
             reset();
         }
         $('#save-btn').off('click');
+        $(this).find("*").off();
+        mainModal.modal('dispose')
     });
 
     mainModal.has('#configuration').find('#save-btn').click(function () {
@@ -161,7 +163,7 @@ function Configuration() {
     });
 
     $('#resetConfig').click(function (e) {
-        let msg = "This will reset all configurations!\n\nAre you sure?";
+        const msg = "This will reset all configurations!\n\nAre you sure?";
         if (confirm(msg)) {
             del(false);
             reset();
@@ -172,7 +174,7 @@ function Configuration() {
     });
 
     $('#resetAll').click(function (e) {
-        let msg = "This will reset all configurations\n" +
+        const msg = "This will reset all configurations\n" +
             "and the link cards!\n\nAre you sure?";
         if (confirm(msg)) {
             del(true);
@@ -323,6 +325,7 @@ function LinkCard() {
 
     mainModal.has('#newlinkcard').on('hidden.bs.modal', function (e) {
         $('#save-btn').off('click');
+        mainModal.modal('dispose')
     });
 }
 

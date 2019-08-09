@@ -5,13 +5,15 @@ const ls_backgroundImageKey = 'backgroundImage';
 const ls_fontColorKey = 'fontColor';
 const ls_colorKey = 'color';
 const ls_enableSortingKey = 'enableSorting';
+const ls_editMode = 'editMode';
 const draggable = '.link-card';
 const draggableTmp = '.card';
 const defaults = {
-    [ls_backgroundImageKey]:'beautiful-branches.jpg',
-    [ls_fontColorKey]:'ghostwhite',
-    [ls_colorKey]:'#07689F',
+    [ls_backgroundImageKey]: 'beautiful-branches.jpg',
+    [ls_fontColorKey]: 'ghostwhite',
+    [ls_colorKey]: '#07689F',
     [ls_enableSortingKey]: true,
+    [ls_editMode]: false,
 };
 let change = {};
 
@@ -27,7 +29,17 @@ $(document).ready(function () {
             window[action]();
         });
     });
+    $('.deleteCard').click(function () {
 
+        const id = $(this).closest('.link-card').attr('id');
+        const title = $('#' + id).find('h6').text();
+        const msg = "Delete " + title + '?';
+        if (confirm(msg)) {
+            removeLinkCard(id);
+            addLinkCards();
+            reorderLinkCards(load(ls_linkCardPositionsKey));
+        }
+    });
     $('#link-card-grid').sortable({
         animation: 150,
         draggable: draggable,
@@ -42,10 +54,10 @@ $(document).ready(function () {
             }
         },
         onStart: function () {
-            $('.card-href').removeClass('stretched-link');
+            $('.has-stretched-link').removeClass('stretched-link');
         },
         onUnchoose: function () {
-            $('.card-href').addClass('stretched-link');
+            $('.has-stretched-link').addClass('stretched-link');
         },
         group: ls_linkCardPositionsKey,
         store: {
@@ -135,7 +147,7 @@ function Configuration() {
     });
     let mainModal = $('#mainModal');
     mainModal.has('#configuration').on('hidden.bs.modal', function (e) {
-        if (hasChange){
+        if (hasChange) {
             reset();
         }
         $('#save-btn').off('click');
@@ -189,21 +201,21 @@ function Configuration() {
     const color = getConfigurableValue(ls_colorKey);
     $('#colorBlue, #colorRed, #colorGreen').removeClass('active');
     if (color === '#07689F') {
-        $("input[name='color'][value='#07689F']").prop("checked",true);
+        $("input[name='color'][value='#07689F']").prop("checked", true);
         $('#colorBlue').addClass('active');
 
     } else if (color === '#92060c') {
-        $("input[name='color'][value='#92060c']").prop("checked",true);
+        $("input[name='color'][value='#92060c']").prop("checked", true);
         $('#colorRed').addClass('active');
 
     } else if (color === '#086e3f') {
-        $("input[name='color'][value='#086e3f']").prop("checked",true);
+        $("input[name='color'][value='#086e3f']").prop("checked", true);
         $('#colorGreen').addClass('active');
     }
 
-    $('input[name="color"]').change(function(){
-        $( ".fab-btn" ).css({'background-color': this.value });
-        $( ".card" ).css({'border-bottom-color': this.value }).css({'color': this.value });
+    $('input[name="color"]').change(function () {
+        $(".fab-btn").css({'background-color': this.value});
+        $(".card").css({'border-bottom-color': this.value}).css({'color': this.value});
         hasChange = true;
         change[ls_colorKey] = this.value;
     });
@@ -211,28 +223,35 @@ function Configuration() {
 
     const fontColor = getConfigurableValue(ls_fontColorKey);
     if (fontColor === 'white') {
-        $("input[name='fontcolor'][value='white']").prop("checked",true);
+        $("input[name='fontcolor'][value='white']").prop("checked", true);
         $('#fontWhite').addClass('active');
         $('#fontBlack').removeClass('active');
     } else if (fontColor === 'black') {
-        $("input[name='fontcolor'][value='black']").prop("checked",true);
+        $("input[name='fontcolor'][value='black']").prop("checked", true);
         $('#fontWhite').removeClass('active');
         $('#fontBlack').addClass('active');
     }
 
-    $('input[name="fontcolor"]').change(function(){
-        $( "#main > :header" ).css({'color': this.value });
+    $('input[name="fontcolor"]').change(function () {
+        $("#main > :header").css({'color': this.value});
         hasChange = true;
         change[ls_fontColorKey] = this.value;
     });
 
 
-     $('#enableSortingSwitch').prop("checked", JSON.parse(getConfigurableValue(ls_enableSortingKey)))
-         .change(function(){
-        $('#link-card-grid').sortable('disabled', !$(this).prop('checked'));
-        hasChange = true;
-        change[ls_enableSortingKey] = $(this).prop('checked');
-    });
+    $('#enableSortingSwitch').prop("checked", JSON.parse(getConfigurableValue(ls_enableSortingKey)))
+        .change(function () {
+            $('#link-card-grid').sortable('disabled', !$(this).prop('checked'));
+            hasChange = true;
+            change[ls_enableSortingKey] = $(this).prop('checked');
+        });
+
+    $('#enableEditSwitch').prop("checked", JSON.parse(getConfigurableValue(ls_editMode)))
+        .change(function () {
+            editMode($(this).prop('checked'));
+            hasChange = true;
+            change[ls_editMode] = $(this).prop('checked');
+        });
 }
 
 function save(obj) {
@@ -350,7 +369,7 @@ function cloneLinkCard(name, iconClass, url, id) {
     if (id == null) {
         id = 'card' + (name).replace(/[^A-Za-z0-9]/g, '') + count;
     }
-    let cardClone = $('#clone-me').clone();
+    let cardClone = $('#clone-me').clone(true);
     cardClone.attr('id', id);
     cardClone.attr('data-id', id);
     cardClone.find('h6').text(name);
@@ -398,6 +417,16 @@ function removeLinkCard(id) {
     let linkCardList = getLinkCardList();
     linkCardList = linkCardList.filter(elememt => elememt.id !== id);
     setLinkCardList(linkCardList);
+}
+
+function editMode(enabled) {
+    if (enabled) {
+        $('.editCardMode').css('display', 'block');
+        $('.link-card').removeClass('pt-3').css('height', '178px').find('a').removeClass('has-stretched-link stretched-link');
+    } else {
+        $('.editCardMode').css('display', 'none');
+        $('.link-card').addClass('pt-3').css('height', '150px').find('a').addClass('has-stretched-link stretched-link');
+    }
 }
 
 let getCount = (function () {

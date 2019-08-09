@@ -74,6 +74,9 @@ $(document).ready(function () {
         }
     }).sortable('widget').options.draggable = draggable;
     init();
+
+    //    $("#fab-btn").trigger('click');
+    // $("#add-new").trigger('click');
 });
 
 function init() {

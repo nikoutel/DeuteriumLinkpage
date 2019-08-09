@@ -40,6 +40,23 @@ $(document).ready(function () {
             reorderLinkCards(load(ls_linkCardPositionsKey));
         }
     });
+    $('.editCard').click(function () {
+        const id = $(this).closest('.link-card').attr('id');
+        const title = $('#' + id).find('h6').text();
+        let cardList = getLinkCardList();
+        let cardData = cardList.find(card => card.id === id);
+
+        $('#mainModal').modal('show');
+        $('#mainModal .modal-title').text('Edit ' + title);
+        $('#mainModal .modal-body').load($('#add-new').data("remote"), function () {
+            $('#newlinkcard #inputTitle').val(cardData.name);
+            $('#newlinkcard #inputIcon').val(cardData.icon);
+            $('#newlinkcard #inputURL').val(cardData.url);
+            window[$('#add-new').data("action")](id);
+        });
+
+
+    });
     $('#link-card-grid').sortable({
         animation: 150,
         draggable: draggable,
@@ -330,14 +347,18 @@ async function loadJSONFile(file) {
     });
 }
 
-function LinkCard() {
+function LinkCard(id) {
     let mainModal = $('#mainModal');
     mainModal.has('#newlinkcard').find('#save-btn').click(function () {
-        let tile = $('#inputTitle').val();
+        let title = $('#inputTitle').val();
         let icon = $('#inputIcon').val();
         let url = $('#inputURL').val();
-        if (tile !== '' && icon !== '' && url !== '') {
-            newLinkCard(tile, icon, url);
+        if (title !== '' && icon !== '' && url !== '') {
+            if (id == null) {
+                newLinkCard(title, icon, url);
+            } else {
+                updateLinkCard(id, {id: id, name: title, icon: icon, url: url})
+            }
             $('#mainModal').modal('hide')
         }
     });
@@ -383,6 +404,19 @@ function newLinkCard(name, iconClass, url) {
     let id = cloneLinkCard(name, iconClass, url);
     saveLinkCard(name, iconClass, url, id);
     addToLinkCardPosition(id);
+}
+
+function updateLinkCard(id, cardData) {
+    let cardList = getLinkCardList();
+    let obj = cardList.find((o, i) => {
+        if (o.id === id) {
+            cardList[i] = cardData;
+            return true;
+        }
+    });
+    setLinkCardList(cardList);
+    addLinkCards();
+    reorderLinkCards(load(ls_linkCardPositionsKey))
 }
 
 function addToLinkCardPosition(id) {

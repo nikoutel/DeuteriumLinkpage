@@ -13,7 +13,6 @@ const defaults = {
     [ls_colorKey]:'#07689F',
     [ls_enableSortingKey]: true,
 };
-let init=reset;
 let change = {};
 
 
@@ -64,6 +63,11 @@ $(document).ready(function () {
     }).sortable('widget').options.draggable = draggable;
     init();
 });
+
+function init() {
+    const init = true;
+    reset(init);
+}
 
 function getConfigurableValue(key) {
     let value;
@@ -131,7 +135,9 @@ function Configuration() {
     });
     let mainModal = $('#mainModal');
     mainModal.has('#configuration').on('hidden.bs.modal', function (e) {
-        reset();
+        if (hasChange){
+            reset();
+        }
         $('#save-btn').off('click');
     });
 
@@ -253,13 +259,24 @@ function del(all) {
     }
 }
 
-function reset() {
-    $('body').css('background-image', 'url(' + imageDirectory + getConfigurableValue(ls_backgroundImageKey) + ')');
-    $( "#main > :header" ).css({'color': getConfigurableValue(ls_fontColorKey) });
-    $( ".fab-btn" ).css({'background-color': getConfigurableValue(ls_colorKey) });
-    $( ".card" ).css({'border-bottom-color': getConfigurableValue(ls_colorKey) })
-        .css({'color': getConfigurableValue(ls_colorKey) });
-    $('#link-card-grid').sortable('disabled', !JSON.parse(getConfigurableValue(ls_enableSortingKey)));
+function reset(init) {
+    if (change[ls_backgroundImageKey] != null || init) {
+        $('body').css('background-image', 'url(' + imageDirectory + getConfigurableValue(ls_backgroundImageKey) + ')');
+    }
+    if (change[ls_fontColorKey] != null || init) {
+        $("#main > :header").css({'color': getConfigurableValue(ls_fontColorKey)});
+    }
+    if (change[ls_colorKey] != null || init) {
+        $(".fab-btn").css({'background-color': getConfigurableValue(ls_colorKey)});
+        $(".card").css({'border-bottom-color': getConfigurableValue(ls_colorKey)})
+            .css({'color': getConfigurableValue(ls_colorKey)});
+    }
+    if (change[ls_enableSortingKey] != null || init) {
+        $('#link-card-grid').sortable('disabled', !JSON.parse(getConfigurableValue(ls_enableSortingKey)));
+    }
+    if (change[ls_editMode] != null || init) {
+        editMode(JSON.parse(getConfigurableValue(ls_editMode)));
+    }
 }
 
 function downloadJSON(content, fileName, contentType) {

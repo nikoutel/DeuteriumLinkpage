@@ -13,10 +13,6 @@ html, body {
 #main h4, #main h5, #main h6, #main p {
   font-family: 'Dosis', sans-serif; }
 
-#main > h1, #main > h2, #main > h3,
-#main > h4, #main > h5, #main > h6 {
-  color: ghostwhite; }
-
 #main p {
   font-size: 1.3rem; }
 
@@ -29,7 +25,6 @@ html, body {
   font-size: 40px;
   line-height: 70px;
   color: white;
-  background-color: #07689F;
   border-radius: 50%;
   text-align: center;
   -webkit-box-shadow: 0 6px 10px 0 #333 !important;
@@ -44,19 +39,22 @@ html, body {
     transform: scale(0.97);
     background-color: #065887; }
 
-input#bg-upload {
+input#inputBackgroundImage {
   display: none;
   visibility: hidden;
   width: 0;
   height: 0; }
 
 .changed {
-  background-color: #e5f3fb; }
+  background-color: #efffef; }
   .changed:focus {
-    background-color: #e5f3fb; }
+    background-color: #efffef; }
 
 .changed-txt {
-  color: #5fb7e9; }
+  color: #02a005 !important; }
+
+.changed-outline label.active {
+  outline: medium double #02a005 !important; }
 
 .card {
   width: 220px;
@@ -64,12 +62,13 @@ input#bg-upload {
   border-radius: 0.1rem;
   opacity: 0.9;
   border-bottom-width: 0.3rem;
-  border-bottom-color: #07689F;
   font-size: 1rem;
   -webkit-box-shadow: 4px 2px 7px 0 #333 !important;
   -moz-box-shadow: 4px 2px 7px 0 #333 !important;
-  box-shadow: 4px 2px 7px 0 #333 !important;
-  color: #07689F; }
+  box-shadow: 4px 2px 7px 0 #333 !important; }
+
+.card a:active, .card a:focus {
+  outline: 0; }
 
 .hidden {
   visibility: hidden; }
@@ -98,6 +97,63 @@ input#bg-upload {
     cursor: pointer; }
 
 #clone-me {
+  display: none; }
+
+.button-label {
+  display: inline-block; }
+
+#colorConfig .btn-primary.active {
+  font-weight: bold;
+  outline: medium double #0a98e8; }
+
+#colorBlue {
+  background-color: #07689F;
+  color: white; }
+
+#colorRed {
+  background-color: #92060c;
+  color: white; }
+
+#colorGreen {
+  background-color: #086e3f;
+  color: white; }
+
+#fontWhite {
+  background-color: darkgrey;
+  color: white; }
+
+#fontBlack {
+  background-color: #fafafa;
+  color: black; }
+
+#secRowConfig .form-row {
+  margin: auto 0; }
+
+#configuration .btn-group-sm > .btn, .btn-sm {
+  padding: .375rem .75rem;
+  min-width: 63px; }
+
+div[disabled] {
+  background-color: #f1f1f1;
+  background-image: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(255, 255, 255, 0.5) 30px, rgba(255, 255, 255, 0.5) 60px);
+  color: #788e9c; }
+
+.editCard {
+  font-size: 0.9rem;
+  padding-right: 0.3rem; }
+  .editCard:hover {
+    cursor: pointer; }
+  .editCard:active {
+    font-size: 0.8rem; }
+
+.deleteCard:hover {
+  cursor: pointer; }
+
+.deleteCard:active {
+  font-size: 0.9rem;
+  padding-left: 0.1rem; }
+
+.editCardMode {
   display: none; }
 
 @media (max-width: 900px) {

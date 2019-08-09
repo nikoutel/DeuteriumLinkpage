@@ -27,10 +27,6 @@ html, body {
   font-family: 'Dosis', sans-serif;
 }
 
-#main > %headings {
-  color: ghostwhite;
-}
-
 #main p {
   font-size: 1.3rem;
 }
@@ -44,7 +40,6 @@ html, body {
   font-size: 40px;
   line-height: 70px;
   color: white;
-  background-color: $primary;
   border-radius: 50%;
   text-align: center;
   @include box-shadow($fabBoxShadow...);
@@ -60,7 +55,7 @@ html, body {
   }
 }
 
-input#bg-upload {
+input#inputBackgroundImage {
   display: none;
   visibility: hidden;
   width: 0;
@@ -68,15 +63,23 @@ input#bg-upload {
 }
 
 .changed {
-  background-color: lighten($info, 15%);
+  background-color: $changed-light;
 
   &:focus {
-    background-color: lighten($info, 15%);
+    background-color: $changed-light;
   }
 }
 
 .changed-txt {
-  color: darken($info, 15%);
+  color: $changed-dark !important;
+ // font-size: 85%;
+}
+
+.changed-outline label{
+  &.active {
+
+    outline: medium double $changed-dark !important;
+  }
 }
 
 .card {
@@ -85,10 +88,16 @@ input#bg-upload {
   border-radius: $borderRadius;
   opacity: 0.9;
   border-bottom-width: 0.3rem;
-  border-bottom-color: $primary;
   font-size: 1rem;
   @include box-shadow(4px, 2px, 7px, 0, $fabShadowColor);
-  color: $primary;
+}
+
+.card a {
+  &:active,
+  &:focus {
+    outline: 0;
+  }
+
 }
 
 .hidden {
@@ -119,6 +128,89 @@ input#bg-upload {
 }
 
 #clone-me {
+  display: none;
+}
+
+.button-label {
+  display: inline-block;
+}
+
+#colorConfig .btn-primary {
+
+  &.active {
+
+    font-weight: bold;
+    outline: medium double lighten($primary, 15%);
+  }
+}
+
+#colorBlue {
+  background-color: $primary;
+  color: white;
+}
+
+#colorRed {
+  background-color: #92060c;
+  color: white;
+}
+
+#colorGreen {
+  background-color: #086e3f;
+  color: white;
+}
+
+#fontWhite {
+  background-color: darkgrey;
+  color: white;
+}
+
+#fontBlack {
+  background-color: #fafafa;
+  color: black;
+}
+
+#secRowConfig .form-row {
+  margin: auto 0;
+}
+
+#configuration .btn-group-sm > .btn, .btn-sm {
+  padding: .375rem .75rem;
+  min-width: 63px;
+}
+
+div[disabled] {
+  background-color: #f1f1f1;
+  background-image: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(255, 255, 255, .5) 30px, rgba(255, 255, 255, .5) 60px);
+  color: #788e9c;
+}
+
+.editCard {
+  font-size: 0.9rem;
+  padding-right: 0.3rem;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:active {
+    font-size: 0.8rem;
+
+  }
+}
+
+.deleteCard {
+  &:hover {
+    cursor: pointer;
+
+  }
+
+  &:active {
+    font-size: 0.9rem;
+    padding-left: 0.1rem;
+  }
+}
+
+.editCardMode {
   display: none;
 }
 

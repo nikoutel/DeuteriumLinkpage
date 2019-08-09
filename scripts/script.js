@@ -1,25 +1,62 @@
 const imageDirectory = 'img/';
-const backgroundImageDefault = imageDirectory + 'beautiful-branches.jpg';
 const ls_linkCardPositionsKey = 'linkCardPositions';
-let change = {};
+const ls_linkCardKey = 'linkCards';
+const ls_backgroundImageKey = 'backgroundImage';
+const ls_fontColorKey = 'fontColor';
+const ls_colorKey = 'color';
+const ls_enableSortingKey = 'enableSorting';
+const ls_editMode = 'editMode';
 const draggable = '.link-card';
 const draggableTmp = '.card';
+const defaults = {
+    [ls_backgroundImageKey]: 'beautiful-branches.jpg',
+    [ls_fontColorKey]: 'ghostwhite',
+    [ls_colorKey]: '#07689F',
+    [ls_enableSortingKey]: true,
+    [ls_editMode]: false,
+};
+let change = {};
+
 
 $(document).ready(function () {
 
-    let body = $('body');
-    body.css('background-image', 'url(' + getBackgroundImage() + ')');
-
     addLinkCards();
 
-    body.on('click', '[data-toggle="modal"]', function () {
+    $('body').on('click', '[data-toggle="modal"]', function () {
         let action = $(this).data("action");
         $($(this).data("target") + ' .modal-title').text($(this).data("title"));
         $($(this).data("target") + ' .modal-body').load($(this).data("remote"), function () {
             window[action]();
         });
     });
+    $('.deleteCard').click(function () {
 
+        const id = $(this).closest('.link-card').attr('id');
+        const title = $('#' + id).find('h6').text();
+        const msg = "Delete " + title + '?';
+        if (confirm(msg)) {
+            removeLinkCard(id);
+            addLinkCards();
+            reorderLinkCards(load(ls_linkCardPositionsKey));
+        }
+    });
+    $('.editCard').click(function () {
+        const id = $(this).closest('.link-card').attr('id');
+        const title = $('#' + id).find('h6').text();
+        let cardList = getLinkCardList();
+        let cardData = cardList.find(card => card.id === id);
+
+        $('#mainModal').modal('show');
+        $('#mainModal .modal-title').text('Edit ' + title);
+        $('#mainModal .modal-body').load($('#add-new').data("remote"), function () {
+            $('#newlinkcard #inputTitle').val(cardData.name);
+            $('#newlinkcard #inputIcon').val(cardData.icon);
+            $('#newlinkcard #inputURL').val(cardData.url);
+            window[$('#add-new').data("action")](id);
+        });
+
+
+    });
     $('#link-card-grid').sortable({
         animation: 150,
         draggable: draggable,
@@ -27,9 +64,6 @@ $(document).ready(function () {
         delayOnTouchOnly: true,
         supportPointer: false,
         onMove: function (evt) {
-            console.log(evt);
-            console.log(evt.related.classList);
-            console.log($(evt.originalEvent.target));
             if (evt.related) {
                 if (evt.related.classList.contains('grid-lock')) return false;
                 if (evt.related.classList.contains('lock')) return false;
@@ -37,10 +71,10 @@ $(document).ready(function () {
             }
         },
         onStart: function () {
-            $('.card-href').removeClass('stretched-link');
+            $('.has-stretched-link').removeClass('stretched-link');
         },
         onUnchoose: function () {
-            $('.card-href').addClass('stretched-link');
+            $('.has-stretched-link').addClass('stretched-link');
         },
         group: ls_linkCardPositionsKey,
         store: {
@@ -56,50 +90,61 @@ $(document).ready(function () {
             }
         }
     }).sortable('widget').options.draggable = draggable;
+    $('html').on('click', function(e) {
+        if (typeof $(e.target).data('original-title') == 'undefined') {
+            $('[data-original-title]').popover('hide');
+        }
+    });
+    init();
 });
 
-function getBackgroundImage() {
-    let backgroundImage;
-    let backgroundImageStored = load('backgroundImage');
+function init() {
+    const init = true;
+    reset(init);
+}
 
-    if (backgroundImageStored == null) {
-        backgroundImage = backgroundImageDefault;
+function getConfigurableValue(key) {
+    let value;
+    let storedValue = load(key);
+    if (storedValue == null) {
+        value = defaults[key];
     } else {
-        backgroundImage = imageDirectory + backgroundImageStored;
+        value = storedValue;
     }
-    return backgroundImage;
+    return value;
 }
 
 function Configuration() {
 
     let hasChange = false;
-    let backgroundImageURL = $('body').css('backgroundImage');
-    let backgroundImage = backgroundImageURL.slice(backgroundImageURL.lastIndexOf('/') + 1, backgroundImageURL.length - 2);
+
+    const backgroundImage = getConfigurableValue(ls_backgroundImageKey);
+
 
     $("#mainModal").data('bs.modal')._config.backdrop = 'static';
 
     //@todo if directory listing, no  403; prepare for server side script
     $.get(imageDirectory, function (data) {
         $(data).find("td > a:contains(.jpg), td > a:contains(.jpeg), td > a:contains(.png)").each(function () {
-            $('#bg-img-s').append($('<option>', {
+            $('#selectBackgroundImage').append($('<option>', {
                 value: $(this).attr("href"),
                 text: $(this).attr("href")
             }));
-            $("#bg-img-s").val(backgroundImage);
+            $("#selectBackgroundImage").val(backgroundImage);
         });
 
     });
 
-    $('button#bg-img-btn').click(function () {
-        $('input#bg-upload').attr("accept", 'image/*').click();
+    $('button#buttonAddNewImg').click(function () {
+        $('input#inputBackgroundImage').attr("accept", 'image/*').click();
     });
 
-    $('button#up').click(function () {
-        $('input#bg-upload').attr("accept", 'application/json').click();
+    $('button#buttonConfigFileLoad').click(function () {
+        $('input#inputBackgroundImage').attr("accept", 'application/json').click();
     });
 
     // @todo
-    $('input#bg-upload').on('change', function () {
+    $('input#inputBackgroundImage').on('change', function () {
         // const objectURL = window.URL.createObjectURL(this.files[0]);
         let file = this.files[0];
         if (file.type.startsWith('image/')) {
@@ -107,7 +152,7 @@ function Configuration() {
         } else if (file.type === 'application/json') {
             loadConfigJson(file).then(function () {
                 if (!$.isEmptyObject(change)) {
-                    $('#up-txt').addClass('changed-txt').text(file.name + ' loaded.');
+                    $('#labelConfigFileLoad').addClass('changed-txt').text(file.name + ' loaded.');
                     hasChange = true;
                 }
             });
@@ -116,37 +161,130 @@ function Configuration() {
         }
     });
 
-    $('#bg-img-s').on('change', function () {
+    $('#selectBackgroundImage').on('change', function () {
         $('body').css('background-image', 'url(' + imageDirectory + this.value + ')');
-        $('#bg-img-s').addClass('changed');
+        $('#selectBackgroundImage').addClass('changed');
+        $('#labelBackgroundImage').addClass('changed-txt').text('Background image changed');
         hasChange = true;
-        change.backgroundImage = this.value;
+        change[ls_backgroundImageKey] = this.value;
     });
     let mainModal = $('#mainModal');
     mainModal.has('#configuration').on('hidden.bs.modal', function (e) {
-        reset();
+        if (hasChange) {
+            reset();
+        }
         $('#save-btn').off('click');
+        $(this).find("*").off();
+        mainModal.modal('dispose')
     });
 
     mainModal.has('#configuration').find('#save-btn').click(function () {
         if (hasChange) {
             save(change);
-            if (change.linkCards != null) {
+            if (change[ls_linkCardKey] != null) {
                 addLinkCards();
             }
-            if (change.linkCardPositions != null) {
-                reorderLinkCards(change.linkCardPositions);
+            if (change[ls_linkCardPositionsKey] != null) {
+                reorderLinkCards(change[ls_linkCardPositionsKey]);
             }
             hasChange = false;
             change = {};
             $('#mainModal').modal('hide');
+            $(this).popover('dispose')
+        } else {
+            $(this).popover({
+                placement:'right',
+                content: 'Nothing to save',
+            }).popover('show')
         }
     });
 
-    $("#down").click(function () {
+    $("#buttonConfigFileSave").click(function () {
         downloadJSON(localStorage, 'deuterium-config.json', 'application/json');
     });
 
+    $('#resetConfig').click(function (e) {
+        const msg = "This will reset all configurations!\n\nAre you sure?";
+        if (confirm(msg)) {
+            del(false);
+            reset();
+            $('#mainModal').modal('hide');
+        }
+        $(this).dropdown('dispose');
+        e.preventDefault();
+    });
+
+    $('#resetAll').click(function (e) {
+        const msg = "This will reset all configurations\n" +
+            "and the link cards!\n\nAre you sure?";
+        if (confirm(msg)) {
+            del(true);
+            reset();
+            addLinkCards();
+            $('#mainModal').modal('hide');
+        }
+        $(this).dropdown('dispose');
+        e.preventDefault();
+    });
+
+    const color = getConfigurableValue(ls_colorKey);
+    $('#colorBlue, #colorRed, #colorGreen').removeClass('active');
+    if (color === '#07689F') {
+        $("input[name='color'][value='#07689F']").prop("checked", true);
+        $('#colorBlue').addClass('active');
+
+    } else if (color === '#92060c') {
+        $("input[name='color'][value='#92060c']").prop("checked", true);
+        $('#colorRed').addClass('active');
+
+    } else if (color === '#086e3f') {
+        $("input[name='color'][value='#086e3f']").prop("checked", true);
+        $('#colorGreen').addClass('active');
+    }
+
+    $('input[name="color"]').change(function () {
+        $(".fab-btn").css({'background-color': this.value});
+        $(".card").css({'border-bottom-color': this.value}).css({'color': this.value});
+        $('#labelColor').addClass('changed-txt').text('Color changed');
+        hasChange = true;
+        change[ls_colorKey] = this.value;
+    });
+
+
+    const fontColor = getConfigurableValue(ls_fontColorKey);
+    if (fontColor === 'white') {
+        $("input[name='fontcolor'][value='white']").prop("checked", true);
+        $('#fontWhite').addClass('active');
+        $('#fontBlack').removeClass('active');
+    } else if (fontColor === 'black') {
+        $("input[name='fontcolor'][value='black']").prop("checked", true);
+        $('#fontWhite').removeClass('active');
+        $('#fontBlack').addClass('active');
+    }
+
+    $('input[name="fontcolor"]').change(function () {
+        $("#main > :header").css({'color': this.value});
+        $('#labelFontColor').addClass('changed-txt').text('Font color changed');
+        hasChange = true;
+        change[ls_fontColorKey] = this.value;
+    });
+
+
+    $('#enableSortingSwitch').prop("checked", JSON.parse(getConfigurableValue(ls_enableSortingKey)))
+        .change(function () {
+            $('#link-card-grid').sortable('disabled', !$(this).prop('checked'));
+            $('#changedTxtSorting').addClass('changed-txt').text('changed');
+            hasChange = true;
+            change[ls_enableSortingKey] = $(this).prop('checked');
+        });
+
+    $('#enableEditSwitch').prop("checked", JSON.parse(getConfigurableValue(ls_editMode)))
+        .change(function () {
+            editMode($(this).prop('checked'));
+            $('#changedTxtEdit').addClass('changed-txt').text('changed');
+            hasChange = true;
+            change[ls_editMode] = $(this).prop('checked');
+        });
 }
 
 function save(obj) {
@@ -163,8 +301,36 @@ function load(key) {
     }
 }
 
-function reset() {
-    $('body').css('background-image', 'url(' + getBackgroundImage() + ')');
+function del(all) {
+    if (typeof localStorage !== "undefined") {
+        if (all) {
+            localStorage.clear();
+        } else {
+            $.each(defaults, function (key, value) {
+                localStorage.removeItem(key);
+            });
+        }
+    }
+}
+
+function reset(init) {
+    if (change[ls_backgroundImageKey] != null || init) {
+        $('body').css('background-image', 'url(' + imageDirectory + getConfigurableValue(ls_backgroundImageKey) + ')');
+    }
+    if (change[ls_fontColorKey] != null || init) {
+        $("#main > :header").css({'color': getConfigurableValue(ls_fontColorKey)});
+    }
+    if (change[ls_colorKey] != null || init) {
+        $(".fab-btn").css({'background-color': getConfigurableValue(ls_colorKey)});
+        $(".card").css({'border-bottom-color': getConfigurableValue(ls_colorKey)})
+            .css({'color': getConfigurableValue(ls_colorKey)});
+    }
+    if (change[ls_enableSortingKey] != null || init) {
+        $('#link-card-grid').sortable('disabled', !JSON.parse(getConfigurableValue(ls_enableSortingKey)));
+    }
+    if (change[ls_editMode] != null || init) {
+        editMode(JSON.parse(getConfigurableValue(ls_editMode)));
+    }
 }
 
 function downloadJSON(content, fileName, contentType) {
@@ -197,29 +363,40 @@ async function loadJSONFile(file) {
     });
 }
 
-function LinkCard() {
+function LinkCard(id) {
     let mainModal = $('#mainModal');
     mainModal.has('#newlinkcard').find('#save-btn').click(function () {
-        let tile = $('#inputTitle').val();
+        let title = $('#inputTitle').val();
         let icon = $('#inputIcon').val();
         let url = $('#inputURL').val();
-        if (tile !== '' && icon !== '' && url !== '') {
-            newLinkCard(tile, icon, url);
-            $('#mainModal').modal('hide')
+        if (title !== '' && icon !== '' && url !== '') {
+            if (id == null) {
+                newLinkCard(title, icon, url);
+            } else {
+                updateLinkCard(id, {id: id, name: title, icon: icon, url: url})
+            }
+            $('#mainModal').modal('hide');
+            $(this).popover('dispose')
+        } else {
+            $(this).popover({
+                placement:'right',
+                content: 'There are empty inputs',
+            }).popover('show')
         }
     });
 
     mainModal.has('#newlinkcard').on('hidden.bs.modal', function (e) {
         $('#save-btn').off('click');
+        mainModal.modal('dispose')
     });
 }
 
 function getLinkCardList() {
-    return JSON.parse(load('linkCards'));
+    return JSON.parse(load([ls_linkCardKey]));
 }
 
 function setLinkCardList(linkCardList) {
-    save({linkCards: JSON.stringify(linkCardList)});
+    save({[ls_linkCardKey]: JSON.stringify(linkCardList)});
 }
 
 function addLinkCards() {
@@ -235,7 +412,7 @@ function cloneLinkCard(name, iconClass, url, id) {
     if (id == null) {
         id = 'card' + (name).replace(/[^A-Za-z0-9]/g, '') + count;
     }
-    let cardClone = $('#clone-me').clone();
+    let cardClone = $('#clone-me').clone(true);
     cardClone.attr('id', id);
     cardClone.attr('data-id', id);
     cardClone.find('h6').text(name);
@@ -251,14 +428,29 @@ function newLinkCard(name, iconClass, url) {
     addToLinkCardPosition(id);
 }
 
-function addToLinkCardPosition(id) {
-    let positionsJson = load(ls_linkCardPositionsKey);
-    let positions = JSON.parse(positionsJson);
-    positions.splice(positions.length - 4, 0, id);
-    save({[ls_linkCardPositionsKey]: JSON.stringify(positions)});
+function updateLinkCard(id, cardData) {
+    let cardList = getLinkCardList();
+    let obj = cardList.find((o, i) => {
+        if (o.id === id) {
+            cardList[i] = cardData;
+            return true;
+        }
+    });
+    setLinkCardList(cardList);
+    addLinkCards();
+    reorderLinkCards(load(ls_linkCardPositionsKey))
 }
 
-function reorderLinkCards(linkCardPositions){
+function addToLinkCardPosition(id) {
+    let positionsJson = load(ls_linkCardPositionsKey);
+    if (positionsJson != null) {
+        let positions = JSON.parse(positionsJson);
+        positions.splice(positions.length - 4, 0, id);
+        save({[ls_linkCardPositionsKey]: JSON.stringify(positions)});
+    }
+}
+
+function reorderLinkCards(linkCardPositions) {
     let position = JSON.parse(linkCardPositions);
     let sortable = $('#link-card-grid').sortable('widget');
     sortable.options.draggable = draggableTmp;
@@ -281,6 +473,16 @@ function removeLinkCard(id) {
     let linkCardList = getLinkCardList();
     linkCardList = linkCardList.filter(elememt => elememt.id !== id);
     setLinkCardList(linkCardList);
+}
+
+function editMode(enabled) {
+    if (enabled) {
+        $('.editCardMode').css('display', 'block');
+        $('.link-card').removeClass('pt-3').css('height', '178px').find('a').removeClass('has-stretched-link stretched-link');
+    } else {
+        $('.editCardMode').css('display', 'none');
+        $('.link-card').addClass('pt-3').css('height', '150px').find('a').addClass('has-stretched-link stretched-link');
+    }
 }
 
 let getCount = (function () {

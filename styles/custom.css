@@ -62,3 +62,7 @@
 .custom-control-input:checked ~ .custom-control-label::before {
   border-color: #07689F;
   background-color: #07689F; }
+
+.card-header {
+  padding: 0.1rem 0.6rem;
+  margin-bottom: 14px; }

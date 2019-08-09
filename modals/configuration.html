@@ -1,21 +1,103 @@
 <div id="configuration">
-    <label class="mb-1" for="bg-img-s">Background Image:</label>
-    <div id="bg-img-d1" class="input-group mb-1">
-        <select id="bg-img-s" class="form-control custom-select">
+    <div class="form-group">
+        <label class="mb-1" for="selectBackgroundImage">Background Image:</label>
+        <div class="input-group mb-1">
+            <select id="selectBackgroundImage" class="form-control custom-select">
 
-        </select>
-        <div class="input-group-append">
-            <button class="btn btn-outline-primary file" type="button" id="bg-img-btn">Add new</button>
-            <input id="bg-upload" type="file" name="bg-upload">
+            </select>
+            <div class="input-group-append">
+                <button class="btn btn-outline-primary file" type="button" id="buttonAddNewImg">Add new</button>
+                <input id="inputBackgroundImage" type="file" name="inputBackgroundImage">
+            </div>
+        </div>
+        <small id="labelBackgroundImage" class="form-text text-muted pl-1">Change or add new background image.</small>
+    </div>
+    <div class="form-group mt-3">
+
+        <div id="secRowConfig" class="form-row">
+            <div id="colorConfig" class="col-sm-6">
+                <span>Colors:</span>
+                <div class="form-row">
+                    <small id="labelColor" class="button-label mt-2 mb-1">Color:</small>
+                    <div class="w-100"></div>
+                    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label id="colorBlue" class="btn btn-sm btn-primary active">
+                            <input type="radio" name="color" id="colorBlueRadio" value="#07689F" autocomplete="off">
+                            Blue
+                        </label>
+                        <label id="colorRed" class="btn btn-sm btn-primary">
+                            <input type="radio" name="color" id="coloRedRadio" value="#92060c" autocomplete="off"> Red
+                        </label>
+                        <label id="colorGreen" class="btn btn-sm btn-primary">
+                            <input type="radio" name="color" id="colorGreenRadio" value="#086e3f" autocomplete="off">
+                            Green
+                        </label>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <small id="labelFontColor" class="button-label mt-2 mb-1">Font color:</small>
+                    <div class="w-100"></div>
+                    <div id="fonColor" class="btn-group btn-group-toggle" data-toggle="buttons">
+                        <label id="fontWhite" class="btn btn-sm btn-primary active">
+                            <input type="radio" name="fontcolor" id="fontWhiteRadio" value="white" autocomplete="off">
+                            White
+                        </label>
+                        <label id="fontBlack" class="btn btn-sm btn-primary">
+                            <input type="radio" name="fontcolor" id="fontBlackRadio" value="black" autocomplete="off">
+                            Black
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+            <div id="config-file" class="col-sm-6">
+                <span>Configuration file:</span>
+                <div class="form-row">
+                    <div class="col-sm-12">
+                        <small id="labelConfigFileSave" class="button-label mt-2">Save configuration to file:</small>
+                        <button id="buttonConfigFileSave" type="button" class="btn btn-sm btn-block btn-outline-primary float-right">
+                            Save
+                        </button>
+                    </div>
+                </div>
+                <div class="form-row pt-1">
+                    <div class="col-sm-12 mt-1">
+                        <small id="labelConfigFileLoad" class="button-label mt-2">Load configuration from file:</small>
+                        <button id="buttonConfigFileLoad" type="button"
+                                class="btn btn-sm btn-block btn-outline-primary float-right">
+                            Load
+                        </button>
+
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <small class="form-text text-muted pl-1">Change or add new background image.</small>
-    <div class="mt-3">
-        <span class="pl-4 mt-4">Download configuration JSON</span>
-        <button id="down" type="button" class="btn btn-outline-primary float-right">Download</button>
+    <div class="form-group mt-3">
+        <span>Edit:</span>
+        <div class="form-row   mt-2">
+            <div class="col-sm-6">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input " id="enableSortingSwitch">
+                    <label class="custom-control-label" for="enableSortingSwitch">Enable sorting</label>
+                    <small id="changedTxtSorting"></small>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="custom-control custom-switch">
+                    <input type="checkbox" class="custom-control-input" id="enableEditSwitch">
+                    <label class="custom-control-label" for="enableEditSwitch">Enable edit mode</label>
+                    <small id="changedTxtEdit"></small>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="mt-3">
-        <span id='up-txt' class="pl-4 mt-4">Upload configuration JSON</span>
-        <button id="up" type="button" class="btn btn-outline-primary float-right">Upload</button>
+    <div class="form-group float-right mb-0 .text-danger text-danger dropdown">
+        <a href="#" class="dropdown-toggle pr-3 text-danger" data-toggle="dropdown">Reset</a>
+        <div class="dropdown-menu">
+            <a id="resetConfig" class="dropdown-item" tabindex="-1" href="#">Reset configuration only</a>
+            <a id="resetAll" class="dropdown-item" tabindex="-1" href="#">Reset configuration and link cards</a>
+        </div>
     </div>
+
 </div>

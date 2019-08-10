@@ -187,9 +187,9 @@ function Configuration() {
             if (change[ls_linkCardPositionsKey] != null) {
                 reorderLinkCards(change[ls_linkCardPositionsKey]);
             }
+            $('#mainModal').modal('hide');
             hasChange = false;
             change = {};
-            $('#mainModal').modal('hide');
             $(this).popover('dispose')
         } else {
             $(this).popover({
@@ -207,7 +207,7 @@ function Configuration() {
         const msg = "This will reset all configurations!\n\nAre you sure?";
         if (confirm(msg)) {
             del(false);
-            reset();
+            reset(true);
             $('#mainModal').modal('hide');
         }
         $(this).dropdown('dispose');
@@ -219,7 +219,7 @@ function Configuration() {
             "and the link cards!\n\nAre you sure?";
         if (confirm(msg)) {
             del(true);
-            reset();
+            reset(true);
             addLinkCards();
             $('#mainModal').modal('hide');
         }

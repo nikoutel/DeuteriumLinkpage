@@ -480,7 +480,11 @@ function saveLinkCard(name, iconClass, url, id) {
     newCard.name = name;
     newCard.icon = iconClass;
     newCard.url = url;
-    linkCardList.push(newCard);
+    if (linkCardList != null) {
+        linkCardList.push(newCard);
+    } else {
+        linkCardList = [newCard]
+    }
     setLinkCardList(linkCardList);
 }
 

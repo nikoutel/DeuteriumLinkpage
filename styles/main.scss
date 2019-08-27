@@ -1,5 +1,6 @@
 @import "init.scss";
 @import url('https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800&display=swap&subset=latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,400i&display=swap&subset=greek,greek-ext');
 
 $fabShadowColor: #333;
 $fabActionOffset: 2;
@@ -219,6 +220,14 @@ div[disabled] {
   border: none;
   padding-top: 0;
   padding-bottom: 0;
+}
+
+.delta {
+  font-family: 'Roboto', sans-serif;
+  line-height: 41px;
+  &:after {
+    content: 'δ';
+  }
 }
 
 @media (max-width: 900px) {

@@ -156,6 +156,12 @@ div[disabled] {
 .editCardMode {
   display: none; }
 
+#inputIcon-icon {
+  background-color: white;
+  border: none;
+  padding-top: 0;
+  padding-bottom: 0; }
+
 @media (max-width: 900px) {
   .fab {
     width: 50px;

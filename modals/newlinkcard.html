@@ -5,9 +5,24 @@
                 <label for="inputTitle">Title:</label>
                 <input type="text" class="form-control" id="inputTitle" placeholder="Title..." required>
             </div>
-            <div class="form-group col-md-5">
+            <div class="form-group col-md-5 ">
                 <label for="inputIcon">Icon:</label>
-                <input type="text" class="form-control" id="inputIcon" placeholder="Icon..." required>
+                <div class="input-group  mb-3">
+                    <input type="hidden" class="form-control" data-input-search="true" id="inputIcon" required>
+                    <div class="dropdown mr-1">
+                        <button data-selected="" type="button"
+                                class=" icp icp-dropdown btn btn-outline-primary  dropdown-toggle pl-3 pr-4"
+                                data-toggle="dropdown">
+                            Select:
+                        </button>
+                        <div class="dropdown-menu"></div>
+                    </div>
+                    <div class="input-group-append">
+                        <span id='inputIcon-icon' class="input-group-text">
+                            <i class="picker-target fa-2x undefined fas fa-link"></i>
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

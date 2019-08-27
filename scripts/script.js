@@ -90,12 +90,14 @@ $(document).ready(function () {
             }
         }
     }).sortable('widget').options.draggable = draggable;
-    $('html').on('click', function(e) {
+    $('html').on('click', function (e) {
         if (typeof $(e.target).data('original-title') == 'undefined') {
             $('[data-original-title]').popover('hide');
         }
     });
     init();
+
+
 });
 
 function init() {
@@ -193,7 +195,7 @@ function Configuration() {
             $(this).popover('dispose')
         } else {
             $(this).popover({
-                placement:'right',
+                placement: 'right',
                 content: 'Nothing to save',
             }).popover('show')
         }
@@ -379,7 +381,7 @@ function LinkCard(id) {
             $(this).popover('dispose')
         } else {
             $(this).popover({
-                placement:'right',
+                placement: 'right',
                 content: 'There are empty inputs',
             }).popover('show')
         }
@@ -388,6 +390,19 @@ function LinkCard(id) {
     mainModal.has('#newlinkcard').on('hidden.bs.modal', function (e) {
         $('#save-btn').off('click');
         mainModal.modal('dispose')
+    });
+
+    $('.icp-dropdown').iconpicker({
+        hideOnSelect: true,
+        templates: {
+            search: '<input type="search" class="form-control iconpicker-search" placeholder="Search icon..." />',
+        }
+    });
+    $('.icp').on('iconpickerSelected', function (e) {
+        $('#inputIcon-icon .picker-target').get(0).className = 'picker-target fa-2x ' +
+            e.iconpickerInstance.options.iconBaseClass + ' ' +
+            e.iconpickerInstance.options.fullClassFormatter(e.iconpickerValue);
+        $('#inputIcon').val(e.iconpickerInstance.options.fullClassFormatter(e.iconpickerValue));
     });
 }
 

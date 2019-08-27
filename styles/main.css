@@ -1,4 +1,6 @@
+@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800&display=swap&subset=latin-ext");
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,400i&display=swap&subset=greek,greek-ext");
 body {
   -webkit-background-size: cover;
   -moz-background-size: cover;
@@ -155,6 +157,18 @@ div[disabled] {
 
 .editCardMode {
   display: none; }
+
+#inputIcon-icon {
+  background-color: white;
+  border: none;
+  padding-top: 0;
+  padding-bottom: 0; }
+
+.delta {
+  font-family: 'Roboto', sans-serif;
+  line-height: 41px; }
+  .delta:after {
+    content: 'δ'; }
 
 @media (max-width: 900px) {
   .fab {

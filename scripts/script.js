@@ -122,7 +122,6 @@ function Configuration() {
 
     const backgroundImage = getConfigurableValue(ls_backgroundImageKey);
 
-
     $("#mainModal").data('bs.modal')._config.backdrop = 'static';
 
     //@todo if directory listing, no  403; prepare for server side script
@@ -367,6 +366,7 @@ async function loadJSONFile(file) {
 
 function LinkCard(id) {
     let mainModal = $('#mainModal');
+    mainModal.data('bs.modal')._config.backdrop = 'static';
     mainModal.has('#newlinkcard').find('#save-btn').click(function () {
         let title = $('#inputTitle').val();
         let icon = $('#inputIcon').val();

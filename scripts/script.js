@@ -16,7 +16,7 @@ const defaults = {
     [ls_editMode]: false,
 };
 let change = {};
-
+let addDemoCard = true;
 
 $(document).ready(function () {
 
@@ -417,6 +417,9 @@ function setLinkCardList(linkCardList) {
 function addLinkCards() {
     $('.link-card').not(':first').remove();
     let list = getLinkCardList();
+    if (addDemoCard) {
+        addDemoCardF(list);
+    }
     $.each(list, function (key, value) {
         cloneLinkCard(value.name, value.icon, value.url, value.id);
     });
@@ -501,6 +504,12 @@ function editMode(enabled) {
     } else {
         $('.editCardMode').css('display', 'none');
         $('.link-card').addClass('pt-3').css('height', '150px').find('a').addClass('has-stretched-link stretched-link');
+    }
+}
+
+function addDemoCardF(linkCardList){
+    if (linkCardList == null) {
+        newLinkCard('deuterium', 'delta', '#');
     }
 }
 

@@ -285,7 +285,7 @@ function Configuration() {
     }
 
     $('input[name="fontcolor"]').change(function () {
-        $("#main > :header").css({'color': this.value});
+        $("#main > :header, footer a").css({'color': this.value});
         $('#labelFontColor').addClass('changed-txt').text('Font color changed');
         hasChange = true;
         change[ls_fontColorKey] = this.value;
@@ -346,7 +346,7 @@ function reset(init) {
         $('#subheading').text(getConfigurableValue(ls_subheadingText));
     }
     if (change[ls_fontColorKey] != null || init) {
-        $("#main > :header").css({'color': getConfigurableValue(ls_fontColorKey)});
+        $("#main > :header, footer a").css({'color': getConfigurableValue(ls_fontColorKey)});
     }
     if (change[ls_colorKey] != null || init) {
         $(".fab-btn").css({'background-color': getConfigurableValue(ls_colorKey)});

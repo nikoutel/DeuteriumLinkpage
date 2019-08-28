@@ -12,7 +12,7 @@ html, body {
   padding-top: 50px; }
 
 #main h1, #main h2, #main h3,
-#main h4, #main h5, #main h6, #main p {
+#main h4, #main h5, #main h6, #main p, footer {
   font-family: 'Dosis', sans-serif; }
 
 #heading {
@@ -178,10 +178,15 @@ div[disabled] {
     content: 'δ'; }
 
 @media (max-width: 900px) {
-  .fab {
+  .fab-btn {
     width: 50px;
     height: 50px;
     font-size: 27px;
     line-height: 50px;
     right: 25px;
-    bottom: 25px; } }
+    bottom: 25px; }
+  footer {
+    width: 10px;
+    line-height: 1;
+    font-size: 0.8rem;
+    padding-bottom: 8px !important; } }

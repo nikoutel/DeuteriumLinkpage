@@ -6,6 +6,8 @@ const ls_fontColorKey = 'fontColor';
 const ls_colorKey = 'color';
 const ls_enableSortingKey = 'enableSorting';
 const ls_editMode = 'editMode';
+const ls_headingText = 'headingText';
+const ls_subheadingText = 'subheadingText';
 const draggable = '.link-card';
 const draggableTmp = '.card';
 const defaults = {
@@ -14,6 +16,8 @@ const defaults = {
     [ls_colorKey]: '#07689F',
     [ls_enableSortingKey]: true,
     [ls_editMode]: false,
+    [ls_headingText]: 'Welcome ...',
+    [ls_subheadingText]: 'Deuterium Linkpage',
 };
 let change = {};
 let addDemoCard = true;
@@ -228,6 +232,22 @@ function Configuration() {
         e.preventDefault();
     });
 
+    $('#inputHeadingText').val(getConfigurableValue(ls_headingText))
+        .on('change keyup', function () {
+            $('#heading').text($('#inputHeadingText').val());
+            hasChange = true;
+            change[ls_headingText] = this.value;
+            $('#labelHeadingText').addClass('changed-txt').text('Heading text changed');
+        });
+
+    $('#inputSubHeadingText').val(getConfigurableValue(ls_subheadingText))
+        .on('change keyup', function () {
+            $('#subheading').text($('#inputSubHeadingText').val());
+            hasChange = true;
+            change[ls_subheadingText] = this.value;
+            $('#labelSubHeadingText').addClass('changed-txt').text('Subheading text changed');
+        });
+
     const color = getConfigurableValue(ls_colorKey);
     $('#colorBlue, #colorRed, #colorGreen').removeClass('active');
     if (color === '#07689F') {
@@ -317,6 +337,12 @@ function del(all) {
 function reset(init) {
     if (change[ls_backgroundImageKey] != null || init) {
         $('body').css('background-image', 'url(' + imageDirectory + getConfigurableValue(ls_backgroundImageKey) + ')');
+    }
+    if (change[ls_headingText] != null || init) {
+        $('#heading').text(getConfigurableValue(ls_headingText));
+    }
+    if (change[ls_subheadingText] != null || init) {
+        $('#subheading').text(getConfigurableValue(ls_subheadingText));
     }
     if (change[ls_fontColorKey] != null || init) {
         $("#main > :header").css({'color': getConfigurableValue(ls_fontColorKey)});

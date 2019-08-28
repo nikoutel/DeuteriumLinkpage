@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import url("https://fonts.googleapis.com/css?family=Dosis:200,300,400,500,600,700,800&display=swap&subset=latin-ext");
+@import url("https://fonts.googleapis.com/css?family=Dosis:200,300,400,500&display=swap&subset=latin-ext");
 @import url("https://fonts.googleapis.com/css?family=Roboto:400,400i&display=swap&subset=greek,greek-ext");
 body {
   -webkit-background-size: cover;
@@ -14,6 +14,13 @@ html, body {
 #main h1, #main h2, #main h3,
 #main h4, #main h5, #main h6, #main p {
   font-family: 'Dosis', sans-serif; }
+
+#heading {
+  font-size: 2.7rem;
+  font-weight: 200; }
+
+#subheading {
+  font-weight: 300; }
 
 #main p {
   font-size: 1.3rem; }

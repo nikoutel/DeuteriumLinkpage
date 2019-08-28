@@ -101,7 +101,8 @@ $(document).ready(function () {
     });
     init();
 
-
+    // $("#fab-btn").trigger('click');
+    // $("#add-new").trigger('click');
 });
 
 function init() {

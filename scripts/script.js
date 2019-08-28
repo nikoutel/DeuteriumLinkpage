@@ -507,9 +507,9 @@ function editMode(enabled) {
     }
 }
 
-function addDemoCardF(linkCardList){
+function addDemoCardF(linkCardList) {
     if (linkCardList == null) {
-        newLinkCard('deuterium', 'delta', '#');
+        newLinkCard('deuterium', 'delta', 'https://github.com/nikoutel/DeuteriumLinkpage');
     }
 }
 

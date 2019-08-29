@@ -143,10 +143,12 @@ function Configuration() {
 
     $('button#buttonAddNewImg').click(function () {
         $('input#inputBackgroundImage').attr("accept", 'image/*').click();
+        $(this).popover('dispose');
     });
 
     $('button#buttonConfigFileLoad').click(function () {
         $('input#inputBackgroundImage').attr("accept", 'application/json').click();
+        $(this).popover('dispose');
     });
 
     // @todo
@@ -363,7 +365,7 @@ function reset(init) {
 
 function downloadJSON(content, fileName, contentType) {
     let a = document.createElement("a");
-    content = JSON.stringify(content);
+    content = JSON.stringify({'deuteriumConfig': content});
     let file = new Blob([content], {type: contentType});
     a.href = URL.createObjectURL(file);
     a.download = fileName;
@@ -377,9 +379,17 @@ function loadConfigJson(file) {
     return JSONContents.then(function (contents) {
         let JSONObj = JSON.parse(contents);
 
-        $.each(JSONObj, function (key, value) {
-            change[key] = value;
-        });
+        if (JSONObj.deuteriumConfig != null) {
+            $.each(JSONObj.deuteriumConfig, function (key, value) {
+                change[key] = value;
+            });
+        } else {
+            $('button#buttonConfigFileLoad').popover({
+                placement: 'right',
+                html: true,
+                content: '<span class="popover-error">Not recognizable format<span>',
+            }).popover('show')
+        }
     });
 }
 

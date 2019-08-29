@@ -239,6 +239,10 @@ div[disabled] {
   }
 }
 
+.popover-error{
+  color: $danger;
+}
+
 @media (max-width: 900px) {
   .fab-btn {
     width: 50px;

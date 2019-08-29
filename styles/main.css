@@ -177,6 +177,9 @@ div[disabled] {
   .delta:after {
     content: 'δ'; }
 
+.popover-error {
+  color: #f67280; }
+
 @media (max-width: 900px) {
   .fab-btn {
     width: 50px;

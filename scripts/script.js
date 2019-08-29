@@ -128,8 +128,6 @@ function Configuration() {
     const backgroundImage = getConfigurableValue(ls_backgroundImageKey);
 
     $("#mainModal").data('bs.modal')._config.backdrop = 'static';
-
-    //@todo if directory listing, no  403; prepare for server side script
     $.get(imageDirectory, function (data) {
         $(data).find("td > a:contains(.jpg), td > a:contains(.jpeg), td > a:contains(.png)").each(function () {
             $('#selectBackgroundImage').append($('<option>', {
@@ -139,6 +137,8 @@ function Configuration() {
             $("#selectBackgroundImage").val(backgroundImage);
         });
 
+    }).fail(function (data) {
+        $('#labelBackgroundImage').addClass('error-txt').text('Deuterium has no access to '+ imageDirectory + ' [' + data.status + ' : ' + data.statusText + ']')
     });
 
     $('button#buttonAddNewImg').click(function () {

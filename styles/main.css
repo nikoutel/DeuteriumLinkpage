@@ -48,7 +48,7 @@ html, body {
     transform: scale(0.97);
     background-color: #065887; }
 
-input#inputBackgroundImage {
+input.inputFileUpload {
   display: none;
   visibility: hidden;
   width: 0;

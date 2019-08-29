@@ -147,7 +147,7 @@ function Configuration() {
     });
 
     $('button#buttonConfigFileLoad').click(function () {
-        $('input#inputBackgroundImage').attr("accept", 'application/json').click();
+        $('input#inputConfigFile').attr("accept", 'application/json').click();
         $(this).popover('dispose');
     });
 
@@ -156,8 +156,20 @@ function Configuration() {
         // const objectURL = window.URL.createObjectURL(this.files[0]);
         let file = this.files[0];
         if (file.type.startsWith('image/')) {
-            alert('Sorry, upload files not yet supported!');
-        } else if (file.type === 'application/json') {
+            alert('Sorry, image file upload, not yet supported!');
+        } else {
+            $('button#buttonAddNewImg').popover({
+                placement: 'right',
+                html: true,
+                content: '<span class="popover-error">Wrong image format<span>',
+            }).popover('show')
+        }
+    });
+
+    $('input#inputConfigFile').on('change', function () {
+        // const objectURL = window.URL.createObjectURL(this.files[0]);
+        let file = this.files[0];
+        if (file.type === 'application/json') {
             loadConfigJson(file).then(function () {
                 if (!$.isEmptyObject(change)) {
                     $('#labelConfigFileLoad').addClass('changed-txt').text(file.name + ' loaded.');
@@ -165,7 +177,11 @@ function Configuration() {
                 }
             });
         } else {
-
+            $('button#buttonConfigFileLoad').popover({
+                placement: 'right',
+                html: true,
+                content: '<span class="popover-error">Wrong file format<span>',
+            }).popover('show')
         }
     });
 

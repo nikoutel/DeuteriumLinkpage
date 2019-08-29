@@ -85,6 +85,10 @@ input.inputFileUpload {
  // font-size: 85%;
 }
 
+.error-txt {
+  color: $danger !important;
+}
+
 .changed-outline label{
   &.active {
 

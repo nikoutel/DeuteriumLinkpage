@@ -4,6 +4,7 @@
             <div class="form-group col-md-7">
                 <label for="inputTitle">Title:</label>
                 <input type="text" class="form-control" id="inputTitle" placeholder="Title..." required>
+                <small id="labelInputTitle" class="form-text error-txt pl-1"></small>
             </div>
             <div class="form-group col-md-5 ">
                 <label for="inputIcon">Icon:</label>
@@ -28,7 +29,9 @@
     </div>
     <div class="form-group">
         <label for="inputURL">URL:</label>
-        <input type="url" class="form-control" id="inputURL" placeholder="URL..." required>
+        <input type="url" class="form-control" id="inputURL" value="https://" required>
+        <small id="labelInputURL" class="form-text error-txt pl-1"></small>
+
     </div>
     <div class="form-group">
         <div class="form-check">

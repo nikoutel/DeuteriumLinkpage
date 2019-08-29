@@ -419,24 +419,42 @@ async function loadJSONFile(file) {
 
 function LinkCard(id) {
     let mainModal = $('#mainModal');
+    let labelInputTitle = $('#labelInputTitle');
+    let labelInputURL = $('#labelInputURL');
+    let inputTitle= $('#inputTitle');
+    let inputIcon = $('#inputIcon');
+    let inputURL = $('#inputURL');
     mainModal.data('bs.modal')._config.backdrop = 'static';
     mainModal.has('#newlinkcard').find('#save-btn').click(function () {
-        let title = $('#inputTitle').val();
-        let icon = $('#inputIcon').val();
-        let url = $('#inputURL').val();
+
+        $(this).popover('dispose');
+        labelInputTitle.text('');
+        labelInputURL.text('');
+        let title = inputTitle.val();
+        let icon = inputIcon.val();
+        let url = inputURL.val();
         if (title !== '' && icon !== '' && url !== '') {
+            if (!(inputURL[0].checkValidity())) {
+                labelInputURL.addClass('error-txt').text('Enter a valid URL');
+                return true
+            }
             if (id == null) {
                 newLinkCard(title, icon, url);
             } else {
                 updateLinkCard(id, {id: id, name: title, icon: icon, url: url})
             }
-            $('#mainModal').modal('hide');
-            $(this).popover('dispose')
+            mainModal.modal('hide');
         } else {
             $(this).popover({
                 placement: 'right',
                 content: 'There are empty inputs',
-            }).popover('show')
+            }).popover('show');
+            if (title === '') {
+                labelInputTitle.addClass('error-txt').text('Title cannot be empty');
+            }
+            if (url === '') {
+                labelInputURL.addClass('error-txt').text('URL cannot be empty');
+            }
         }
     });
 

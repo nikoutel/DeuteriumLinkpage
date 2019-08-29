@@ -62,6 +62,9 @@ input.inputFileUpload {
 .changed-txt {
   color: #02a005 !important; }
 
+.error-txt {
+  color: #f67280 !important; }
+
 .changed-outline label.active {
   outline: medium double #02a005 !important; }
 

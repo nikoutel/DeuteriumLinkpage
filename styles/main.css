@@ -25,7 +25,7 @@ html, body {
 #main p {
   font-size: 1.3rem; }
 
-.fab-btn {
+#fab-btn {
   width: 70px;
   height: 70px;
   position: fixed;
@@ -39,9 +39,10 @@ html, body {
   -webkit-box-shadow: 0 6px 10px 0 #333 !important;
   -moz-box-shadow: 0 6px 10px 0 #333 !important;
   box-shadow: 0 6px 10px 0 #333 !important; }
-  .fab-btn:hover {
-    transform: scale(1.03); }
-  .fab-btn:active {
+  #fab-btn:hover {
+    transform: scale(1.03);
+    cursor: pointer; }
+  #fab-btn:active {
     -webkit-box-shadow: 0 6px 8px 0 #333 !important;
     -moz-box-shadow: 0 6px 8px 0 #333 !important;
     box-shadow: 0 6px 8px 0 #333 !important;

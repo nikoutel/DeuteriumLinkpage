@@ -24,7 +24,7 @@ html, body {
   padding-top: 50px;
 }
 
-#main %headings, #main p, footer{
+#main %headings, #main p, footer {
   font-family: 'Dosis', sans-serif;
 }
 
@@ -82,14 +82,13 @@ input.inputFileUpload {
 
 .changed-txt {
   color: $changed-dark !important;
- // font-size: 85%;
 }
 
 .error-txt {
   color: $danger !important;
 }
 
-.changed-outline label{
+.changed-outline label {
   &.active {
 
     outline: medium double $changed-dark !important;
@@ -228,7 +227,7 @@ div[disabled] {
   display: none;
 }
 
-#inputIcon-icon{
+#inputIcon-icon {
   background-color: white;
   border: none;
   padding-top: 0;
@@ -238,17 +237,18 @@ div[disabled] {
 .delta {
   font-family: 'Roboto', sans-serif;
   line-height: 41px;
+
   &:after {
     content: 'δ';
   }
 }
 
-.popover-error{
+.popover-error {
   color: $danger;
 }
 
-@media (max-width: 900px) {
-  .fab-btn {
+@media (max-width: 768px) {
+  #fab-btn {
     width: 50px;
     height: 50px;
     font-size: 27px;
@@ -257,10 +257,31 @@ div[disabled] {
     bottom: 25px;
   }
 
-  footer{
+  footer {
     width: 10px;
     line-height: 1;
     font-size: 0.8rem;
-    padding-bottom:  8px !important;
+    padding-bottom: 8px !important;
+  }
+
+  html, body {
+    height: 100%;
+    padding-top: 10px;
+  }
+
+  #heading {
+    font-size: 2.5rem;
+    font-weight: 200;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+  #subheading {
+    font-weight: 300;
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+  }
+
+  .hidden {
+    display: none;
   }
 }

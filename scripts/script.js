@@ -167,7 +167,7 @@ function Configuration() {
     $('input#inputConfigFile').on('change', function () {
         // const objectURL = window.URL.createObjectURL(this.files[0]);
         let file = this.files[0];
-        if (file.type === 'application/json') {
+        if (file.type === 'application/json' || (file.type === '' && file.name.split('.')[1] === 'json')) {
             loadConfigJson(file).then(function () {
                 if (!$.isEmptyObject(change)) {
                     $('#labelConfigFileLoad').addClass('changed-txt').text(file.name + ' loaded.');
@@ -179,7 +179,7 @@ function Configuration() {
                 placement: 'right',
                 html: true,
                 content: '<span class="popover-error">Wrong file format<span>',
-            }).popover('show')
+            }).popover('show');
         }
     });
 

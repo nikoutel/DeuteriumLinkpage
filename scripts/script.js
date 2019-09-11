@@ -2,6 +2,7 @@ const imageDirectory = 'img/';
 const ls_linkCardPositionsKey = 'linkCardPositions';
 const ls_linkCardKey = 'linkCards';
 const ls_backgroundImageKey = 'backgroundImage';
+const ls_backgroundImageCenteredKey = 'backgroundImageCentered';
 const ls_fontColorKey = 'fontColor';
 const ls_colorKey = 'color';
 const ls_enableSortingKey = 'enableSorting';
@@ -12,6 +13,7 @@ const draggable = '.link-card';
 const draggableTmp = '.card';
 const defaults = {
     [ls_backgroundImageKey]: 'beautiful-branches.jpg',
+    [ls_backgroundImageCenteredKey]: false,
     [ls_fontColorKey]: 'ghostwhite',
     [ls_colorKey]: '#07689F',
     [ls_enableSortingKey]: true,
@@ -323,6 +325,20 @@ function Configuration() {
             hasChange = true;
             change[ls_editMode] = $(this).prop('checked');
         });
+
+    $('#centeredSwitch').prop("checked", JSON.parse(getConfigurableValue(ls_backgroundImageCenteredKey)))
+        .change(function () {
+            console.log('#');
+            if ($(this).prop('checked')) {
+                $('body').css('background-position', 'center');
+            } else {
+                $('body').css('background-position', 'initial');
+            }
+            $('#changedCenteredSwitch').addClass('changed-txt').text('changed');
+            hasChange = true;
+            change[ls_backgroundImageCenteredKey] = $(this).prop('checked');
+        });
+
 }
 
 function save(obj) {
@@ -374,6 +390,14 @@ function reset(init) {
     }
     if (change[ls_editMode] != null || init) {
         editMode(JSON.parse(getConfigurableValue(ls_editMode)));
+    }
+    if (change[ls_backgroundImageCenteredKey] != null || init) {
+        let centered = JSON.parse(getConfigurableValue(ls_backgroundImageCenteredKey));
+        if (centered === true) {
+            $('body').css('background-position', 'center');
+        } else {
+            $('body').css('background-position', 'initial');
+        }
     }
 }
 

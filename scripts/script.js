@@ -96,7 +96,7 @@ $(document).ready(function () {
     }).sortable('widget').options.draggable = draggable;
     $('html').on('click', function (e) {
         if (typeof $(e.target).data('original-title') == 'undefined') {
-            $('[data-original-title]').popover('hide');
+            $('[data-original-title]').popover('dispose');
         }
     });
     init();
@@ -143,12 +143,10 @@ function Configuration() {
 
     $('button#buttonAddNewImg').click(function () {
         $('input#inputBackgroundImage').attr("accept", 'image/*').click();
-        $(this).popover('dispose');
     });
 
     $('button#buttonConfigFileLoad').click(function () {
         $('input#inputConfigFile').attr("accept", 'application/json').click();
-        $(this).popover('dispose');
     });
 
     // @todo

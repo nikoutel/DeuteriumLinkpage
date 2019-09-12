@@ -253,7 +253,7 @@ function Configuration() {
 
     $('#inputHeadingText').val(getConfigurableValue(ls_headingText))
         .on('change keyup', function () {
-            $('#heading').text($('#inputHeadingText').val());
+            $('#heading').html($('#inputHeadingText').val());
             hasChange = true;
             change[ls_headingText] = this.value;
             $('#labelHeadingText').addClass('changed-txt').text('Heading text changed');
@@ -261,7 +261,7 @@ function Configuration() {
 
     $('#inputSubHeadingText').val(getConfigurableValue(ls_subheadingText))
         .on('change keyup', function () {
-            $('#subheading').text($('#inputSubHeadingText').val());
+            $('#subheading').html($('#inputSubHeadingText').val());
             hasChange = true;
             change[ls_subheadingText] = this.value;
             $('#labelSubHeadingText').addClass('changed-txt').text('Subheading text changed');
@@ -372,10 +372,10 @@ function reset(init) {
         $('body').css('background-image', 'url(' + imageDirectory + getConfigurableValue(ls_backgroundImageKey) + ')');
     }
     if (change[ls_headingText] != null || init) {
-        $('#heading').text(getConfigurableValue(ls_headingText));
+        $('#heading').html(getConfigurableValue(ls_headingText));
     }
     if (change[ls_subheadingText] != null || init) {
-        $('#subheading').text(getConfigurableValue(ls_subheadingText));
+        $('#subheading').html(getConfigurableValue(ls_subheadingText));
     }
     if (change[ls_fontColorKey] != null || init) {
         $("#main > :header, footer a").css({'color': getConfigurableValue(ls_fontColorKey)});

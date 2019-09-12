@@ -224,7 +224,7 @@ function Configuration() {
     });
 
     $("#buttonConfigFileSave").click(function () {
-        downloadJSON(localStorage, 'deuterium-config.json', 'application/json');
+        downloadJSON($.extend({}, defaults, localStorage), 'deuterium-config.json', 'application/json');
     });
 
     $('#resetConfig').click(function (e) {

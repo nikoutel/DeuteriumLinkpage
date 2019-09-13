@@ -1,0 +1,68 @@
+.btn {
+  border-radius: 0.1rem; }
+
+.btn-primary {
+  background-color: #07689F;
+  border-color: #07689F; }
+  .btn-primary:hover {
+    background-color: #065887;
+    border-color: #17a5f5; }
+  .btn-primary:active, .btn-primary:focus {
+    background-color: #065887 !important;
+    border-color: #065887 !important;
+    -webkit-box-shadow: 0 0 0 0.1rem #0988d0 !important;
+    -moz-box-shadow: 0 0 0 0.1rem #0988d0 !important;
+    box-shadow: 0 0 0 0.1rem #0988d0 !important; }
+
+.btn-secondary {
+  background-color: #b3bfc7;
+  border-color: #b3bfc7; }
+  .btn-secondary:hover {
+    background-color: #a4b3bc;
+    border-color: #788e9c; }
+  .btn-secondary:active, .btn-secondary:focus {
+    background-color: #a4b3bc !important;
+    border-color: #a4b3bc !important;
+    -webkit-box-shadow: 0 0 0 0.1rem #d0d8dd !important;
+    -moz-box-shadow: 0 0 0 0.1rem #d0d8dd !important;
+    box-shadow: 0 0 0 0.1rem #d0d8dd !important; }
+
+.modal-content {
+  border-radius: 0.1rem; }
+
+.modal-header .close {
+  padding: 0 0.5rem;
+  font-size: 1.8rem; }
+
+.close {
+  font-weight: 100; }
+
+.btn-outline-primary {
+  color: #07689F;
+  border-color: #07689F; }
+  .btn-outline-primary:hover {
+    background-color: #07689F;
+    border-color: #07689F; }
+  .btn-outline-primary:active, .btn-outline-primary:focus {
+    background-color: #065887 !important;
+    border-color: #065887 !important;
+    -webkit-box-shadow: 0 0 0 0.1rem #0988d0 !important;
+    -moz-box-shadow: 0 0 0 0.1rem #0988d0 !important;
+    box-shadow: 0 0 0 0.1rem #0988d0 !important;
+    color: white; }
+
+.custom-select, .form-control {
+  border-radius: 0.1rem; }
+  .custom-select:active, .custom-select:focus, .form-control:active, .form-control:focus {
+    border-color: #b3bfc7;
+    -webkit-box-shadow: 0 0 0 0.1rem #d0d8dd !important;
+    -moz-box-shadow: 0 0 0 0.1rem #d0d8dd !important;
+    box-shadow: 0 0 0 0.1rem #d0d8dd !important; }
+
+.custom-control-input:checked ~ .custom-control-label::before {
+  border-color: #07689F;
+  background-color: #07689F; }
+
+.card-header {
+  padding: 0.1rem 0.6rem;
+  margin-bottom: 14px; }

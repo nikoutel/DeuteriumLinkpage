@@ -1,0 +1,215 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Dosis:200,300,400,500&display=swap&subset=latin-ext");
+@import url("https://fonts.googleapis.com/css?family=Roboto:400,400i&display=swap&subset=greek,greek-ext");
+body {
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed; }
+
+html, body {
+  height: 100%;
+  padding-top: 50px; }
+
+#main h1, #main h2, #main h3,
+#main h4, #main h5, #main h6, #main p, footer {
+  font-family: 'Dosis', sans-serif; }
+
+#heading {
+  font-size: 2.7rem;
+  font-weight: 200; }
+
+#subheading {
+  font-weight: 300; }
+
+#main p {
+  font-size: 1.3rem; }
+
+#fab-btn {
+  width: 70px;
+  height: 70px;
+  position: fixed;
+  right: 40px;
+  bottom: 40px;
+  font-size: 40px;
+  line-height: 70px;
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  -webkit-box-shadow: 0 6px 10px 0 #333 !important;
+  -moz-box-shadow: 0 6px 10px 0 #333 !important;
+  box-shadow: 0 6px 10px 0 #333 !important; }
+  #fab-btn:hover {
+    transform: scale(1.03);
+    cursor: pointer; }
+  #fab-btn:active {
+    -webkit-box-shadow: 0 6px 8px 0 #333 !important;
+    -moz-box-shadow: 0 6px 8px 0 #333 !important;
+    box-shadow: 0 6px 8px 0 #333 !important;
+    transform: scale(0.97);
+    background-color: #065887; }
+
+input.inputFileUpload {
+  display: none;
+  visibility: hidden;
+  width: 0;
+  height: 0; }
+
+.changed {
+  background-color: #efffef; }
+  .changed:focus {
+    background-color: #efffef; }
+
+.changed-txt {
+  color: #02a005 !important; }
+
+.error-txt {
+  color: #f67280 !important; }
+
+.changed-outline label.active {
+  outline: medium double #02a005 !important; }
+
+.card {
+  width: 220px;
+  height: 150px;
+  border-radius: 0.1rem;
+  opacity: 0.9;
+  border-bottom-width: 0.3rem;
+  font-size: 1rem;
+  -webkit-box-shadow: 4px 2px 7px 0 #333 !important;
+  -moz-box-shadow: 4px 2px 7px 0 #333 !important;
+  box-shadow: 4px 2px 7px 0 #333 !important; }
+
+.card a:active, .card a:focus {
+  outline: 0; }
+
+.hidden {
+  visibility: hidden; }
+
+#add-new-card {
+  border-width: 0;
+  background-color: rgba(255, 255, 255, 0);
+  -webkit-box-shadow: 0 0 0 0 #fff !important;
+  -moz-box-shadow: 0 0 0 0 #fff !important;
+  box-shadow: 0 0 0 0 #fff !important; }
+
+#add-new {
+  width: 110px;
+  height: 110px;
+  border-width: 0.2rem;
+  border-color: darkgrey;
+  border-style: dashed;
+  color: darkgrey;
+  background-color: #f6f6f6;
+  opacity: 0.4;
+  -webkit-box-shadow: 0 0 0 0 #fff !important;
+  -moz-box-shadow: 0 0 0 0 #fff !important;
+  box-shadow: 0 0 0 0 #fff !important; }
+  #add-new:hover {
+    opacity: 0.7;
+    cursor: pointer; }
+
+#clone-me {
+  display: none; }
+
+.button-label {
+  display: inline-block; }
+
+#colorConfig .btn-primary.active {
+  font-weight: bold;
+  outline: medium double #0a98e8; }
+
+#colorBlue {
+  background-color: #07689F;
+  color: white; }
+
+#colorRed {
+  background-color: #92060c;
+  color: white; }
+
+#colorGreen {
+  background-color: #086e3f;
+  color: white; }
+
+#fontWhite {
+  background-color: darkgrey;
+  color: white; }
+
+#fontBlack {
+  background-color: #fafafa;
+  color: black; }
+
+#secRowConfig .form-row {
+  margin: auto 0; }
+
+#configuration .btn-group-sm > .btn, .btn-sm {
+  padding: .375rem .75rem;
+  min-width: 63px; }
+
+div[disabled] {
+  background-color: #f1f1f1;
+  background-image: repeating-linear-gradient(-45deg, transparent, transparent 30px, rgba(255, 255, 255, 0.5) 30px, rgba(255, 255, 255, 0.5) 60px);
+  color: #788e9c; }
+
+.editCard {
+  font-size: 0.9rem;
+  padding-right: 0.3rem; }
+  .editCard:hover {
+    cursor: pointer; }
+  .editCard:active {
+    font-size: 0.8rem; }
+
+.deleteCard:hover {
+  cursor: pointer; }
+
+.deleteCard:active {
+  font-size: 0.9rem;
+  padding-left: 0.1rem; }
+
+.editCardMode {
+  display: none; }
+
+#inputIcon-icon {
+  background-color: white;
+  border: none;
+  padding-top: 0;
+  padding-bottom: 0; }
+
+.delta {
+  font-family: 'Roboto', sans-serif;
+  line-height: 41px; }
+  .delta:after {
+    content: 'δ'; }
+
+.popover-error {
+  color: #f67280; }
+
+@media (max-width: 768px) {
+  #fab-btn {
+    width: 50px;
+    height: 50px;
+    font-size: 27px;
+    line-height: 50px;
+    right: 25px;
+    bottom: 25px; }
+  footer {
+    width: 10px;
+    line-height: 1;
+    font-size: 0.8rem;
+    padding-bottom: 8px !important; }
+  html, body {
+    height: 100%;
+    padding-top: 10px; }
+  #heading {
+    font-size: 2.5rem;
+    font-weight: 200;
+    padding-left: 0 !important;
+    margin-left: 0 !important; }
+  #subheading {
+    font-weight: 300;
+    padding-left: 0 !important;
+    margin-left: 0 !important; }
+  .hidden {
+    display: none; } }

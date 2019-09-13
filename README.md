@@ -21,7 +21,8 @@ Quick access your favorite and most used links via link cards. Add and remove li
 * Reset configuration.
 * Reset configuration and link cards.
 
-###Screenshots:
+### Screenshots:
+
 Main:  
 ![Main](Screenshots/Deuterium2.png?raw=true)
 
